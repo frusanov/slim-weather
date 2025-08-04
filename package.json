@@ -4,7 +4,14 @@
   "type": "module",
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/node": "latest",
+    "@vitejs/plugin-react": "^4.7.0",
+    "concurrently": "^9.2.0",
+    "esbuild": "^0.25.8",
+    "tsx": "^4.20.3",
+    "vite": "^7.0.6",
+    "vite-plugin-node": "^7.0.0",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "peerDependencies": {
     "typescript": "^5"
@@ -12,12 +19,20 @@
   "dependencies": {
     "@emotion/css": "^11.13.5",
     "@emotion/server": "^11.11.0",
+    "@hono/node-server": "^1.18.1",
     "bun-compression": "^0.0.6",
     "hono": "^4.8.12",
     "postcss": "^8.5.6"
   },
   "scripts": {
-    "dev": "bun run ./dev-scripts/dev.ts",
-    "build": "bun build ./index.tsx --outdir ./public"
+    "dev": "node dev.js",
+    "build": "node build-server.js && vite build",
+    "build:server": "node build-server.js",
+    "build:client": "vite build",
+    "start": "node dist/index.js",
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "check": "tsc --noEmit",
+    "test": "echo \"Tests not yet implemented\" && exit 0"
   }
 }

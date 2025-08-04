@@ -1,8 +1,8 @@
 import type { FC } from "hono/jsx";
 import { css } from "@emotion/css";
 import type { APIResponseMap, ForecastDay } from "../../types/weather-api";
-import { DaySnippet } from "./day-snippet";
-import { HourSnippet } from "./hour-snippet";
+import { DaySnippet } from "./day-snippet.js";
+import { HourSnippet } from "./hour-snippet.js";
 
 export const WeatherWidget: FC<{
   weather: APIResponseMap["forecast.json"];

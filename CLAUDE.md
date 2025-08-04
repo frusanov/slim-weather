@@ -6,20 +6,20 @@ This project is an extremely lightweight weather website optimized for poor inte
 
 ## Runtime & Package Manager
 
-Default to using Bun instead of Node.js for all operations:
+Default to using Node.js with Yarn for all operations:
 
-- Use `bun <file>` instead of `node <file>` or `ts-node <file>`
-- Use `bun test` instead of `jest` or `vitest`
-- Use `bun build <file.html|file.ts|file.css>` instead of `webpack` or `esbuild`
-- Use `bun install` instead of `npm install` or `yarn install` or `pnpm install`
-- Use `bun run <script>` instead of `npm run <script>` or `yarn run <script>` or `pnpm run <script>`
-- Bun automatically loads .env, so don't use dotenv
+- Use `node <file>` or `tsx <file>` for TypeScript files
+- Use `yarn test` for running tests with Jest or Vitest
+- Use build tools like Webpack, esbuild, or Vite for bundling
+- Use `yarn install` for installing dependencies
+- Use `yarn <script>` for running package.json scripts
+- Use dotenv for loading environment variables
 
 ## Development Commands
 
-- `bun run dev` - Start development server with hot reloading and asset watching
-- `bun run build` - Create production build
-- `bun --hot ./dist` - Run built server with hot reload
+- `yarn dev` - Start development server with hot reloading and asset watching
+- `yarn build` - Create production build
+- `yarn start` - Run built server
 
 ## Architecture Guidelines
 
@@ -29,7 +29,7 @@ Use **Hono** instead of Express for minimal overhead:
 
 ```ts
 import { Hono } from "hono";
-import { compress } from "bun-compression";
+import { compress } from "hono/compress";
 
 const app = new Hono();
 app.use(compress()); // Always compress responses
@@ -67,7 +67,7 @@ Always extract critical CSS in the Layout component to minimize render-blocking 
 Keep client-side JavaScript minimal and modular:
 
 1. Place client systems in `client-systems/` directory
-2. Build them separately for browser target: `bun build ./client-systems/*.ts --target=browser --outdir ./dist/systems`
+2. Build them separately for browser target using your build tool (webpack, esbuild, etc.)
 3. Load on-demand using the `loadSystem()` function
 4. Use progressive enhancement - core functionality must work without JS
 
@@ -131,18 +131,18 @@ Keep API responses minimal - only include necessary data.
 
 ### Build Process
 
-The dev script runs three parallel processes:
+The dev script runs parallel processes for:
 
-1. Server bundle: `bun build ./index.tsx --target=bun --outdir ./dist --watch`
-2. Client systems: `bun build ./client-systems/*.ts --target=browser --outdir ./dist/systems --watch`
-3. Server: `bun run --hot ./dist`
+1. Server bundle: Build and watch server-side code
+2. Client systems: Build and watch client-side TypeScript modules
+3. Server: Run the development server with hot reload
 
 ### Testing
 
-Use `bun test` for testing:
+Use `yarn test` for testing with Jest or Vitest:
 
 ```ts
-import { test, expect } from "bun:test";
+import { test, expect } from "@jest/globals"; // or "vitest"
 
 test("weather widget renders", () => {
   // Test implementation
@@ -151,10 +151,10 @@ test("weather widget renders", () => {
 
 ### Deployment
 
-Configured for Vercel with custom Bun commands:
-- Install: `bun install`
-- Build: `bun run build` 
-- Dev: `bun run dev`
+Configured for Vercel with Yarn commands:
+- Install: `yarn install`
+- Build: `yarn build` 
+- Dev: `yarn dev`
 
 ### Dark Mode
 

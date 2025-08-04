@@ -5,7 +5,7 @@ An extremely lightweight weather website designed to work fast even with very po
 ## Features
 
 - **Ultra-fast loading**: Optimized for slow connections and low-bandwidth scenarios
-- **Minimal bundle size**: Uses Bun's efficient bundling and compression
+- **Minimal bundle size**: Uses efficient bundling and compression
 - **Server-side rendering**: Weather data is pre-rendered on the server
 - **Progressive enhancement**: Core functionality works without JavaScript
 - **Responsive design**: Works on all devices with minimal CSS
@@ -14,11 +14,12 @@ An extremely lightweight weather website designed to work fast even with very po
 
 ## Tech Stack
 
-- **Runtime**: [Bun](https://bun.sh) - Fast all-in-one JavaScript runtime
+- **Runtime**: Node.js with Yarn package manager
+- **Build Tool**: [Vite](https://vitejs.dev) - Fast build tool with hot module replacement
 - **Framework**: [Hono](https://hono.dev) - Lightweight web framework
 - **UI**: Server-side JSX with minimal client-side JavaScript
 - **Styling**: [@emotion/css](https://emotion.sh) with critical CSS extraction
-- **Compression**: bun-compression for optimal payload sizes
+- **Compression**: gzip compression for optimal payload sizes
 - **Deployment**: Vercel with custom build configuration
 
 ## Project Structure
@@ -37,14 +38,17 @@ slim-weather/
 ├── utils/               # Utility functions
 │   └── fetch-weather.ts # Weather API integration
 ├── types/               # TypeScript type definitions
-├── dev-scripts/         # Development tools
+├── vite.config.ts       # Vite build configuration
+├── build-server.js      # Server build script using esbuild
+├── dev.js               # Development orchestration script
+├── dev-server.ts        # Development server entry point
 └── dist/                # Built assets
 ```
 
 ## Installation
 
 ```bash
-bun install
+yarn install
 ```
 
 ## Development
@@ -52,21 +56,28 @@ bun install
 Start the development server with hot reloading:
 
 ```bash
-bun run dev
+yarn dev
 ```
 
 This will:
-- Build the server bundle and watch for changes
-- Build client systems for the browser
-- Start the server with hot reload
+- Build the server bundle using esbuild and watch for changes
+- Build client systems using Vite and watch for changes
+- Start the development server with hot reload on port 3000
+- Provide fast HMR (Hot Module Replacement) for client-side code
 
 ## Production Build
 
 ```bash
-bun run build
+yarn build
 ```
 
-Creates optimized production builds in the `dist` directory.
+Creates optimized production builds in the `dist` directory:
+- Server bundle: `dist/index.js` (built with esbuild)
+- Client systems: `dist/systems/` (built with Vite)
+
+You can also build components separately:
+- `yarn build:server` - Build only the server
+- `yarn build:client` - Build only the client systems
 
 ## API Endpoints
 
@@ -77,7 +88,7 @@ Creates optimized production builds in the `dist` directory.
 ## Performance Features
 
 1. **Critical CSS**: Only essential styles are inlined, rest loads asynchronously
-2. **Compression**: All responses are compressed using bun-compression
+2. **Compression**: All responses are compressed using gzip
 3. **Lazy loading**: Client-side features load only when needed
 4. **Minimal JavaScript**: Core functionality works without JS
 5. **Static assets**: Efficiently served with proper caching headers
@@ -94,7 +105,7 @@ WEATHER_API=your_weather_api_key_here
 ## Deployment
 
 The project is configured for Vercel deployment with:
-- Custom install command using Bun
+- Standard Node.js runtime with Yarn
 - Optimized build process
 - Proper static asset handling
 
@@ -106,7 +117,7 @@ vercel deploy
 
 ## Browser Support
 
-Works on all modern browsers and gracefully degrades on older ones. No build tools or transpilation needed for modern JavaScript features thanks to Bun's efficient bundling.
+Works on all modern browsers and gracefully degrades on older ones. Uses modern build tools for efficient bundling and transpilation.
 
 ## License
 

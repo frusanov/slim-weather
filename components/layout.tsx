@@ -1,7 +1,7 @@
 import { html } from "hono/html";
 import { css } from "@emotion/css";
 import { extractCritical } from "@emotion/server";
-import { FetchAndAppend } from "./fetch-and-append";
+import { FetchAndAppend } from "./fetch-and-append.js";
 
 export const Layout = ({ children }: { children?: any }) => {
   const bodyStyles = css`

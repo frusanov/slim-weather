@@ -1,7 +1,9 @@
 import type { FC } from "hono/jsx";
 import { css } from "@emotion/css";
-import { Layout } from "../components/layout";
-import { WeatherWidget } from "../components/weather-widget";
+import { Layout } from "../components/layout.js";
+import { WeatherWidget } from "../components/weather-widget/index.js";
+import { Hono } from "hono";
+import { fetchWeather } from "../utils/fetch-weather.js";
 
 export const IndexPage: FC = ({ weather }) => {
   return (
@@ -25,3 +27,10 @@ export const IndexPage: FC = ({ weather }) => {
     </Layout>
   );
 };
+
+export const indexRoute = new Hono();
+
+indexRoute.get("/", async (c) => {
+  const weather = await fetchWeather("Izmir");
+  return c.html(<IndexPage weather={weather} />);
+});
