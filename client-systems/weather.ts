@@ -5,6 +5,7 @@ type Day = APIResponseMap["forecast.json"]["forecast"]["forecastday"][number];
 const cache: Record<string, Day> = {};
 
 window.systems.weather = {
+  state: {},
   async setHour(hour: string) {
     console.log({ hour });
   },
@@ -29,9 +30,7 @@ window.systems.weather = {
       cache[date] = day;
     }
 
-    const $elementsWithSlots = document.querySelectorAll(
-      `[data-slot]`,
-    ) as Array<HTMLElement>;
+    const $elementsWithSlots = document.querySelectorAll(`[data-slot]`);
 
     const draft = {};
 

@@ -71,9 +71,9 @@ This will:
 yarn build
 ```
 
-Creates optimized production builds in the `dist` directory:
-- Server bundle: `dist/index.js` (built with esbuild)
-- Client systems: `dist/systems/` (built with Vite)
+Creates optimized production builds:
+- Server bundle: `api/[...path].js` (built with esbuild for Vercel)
+- Client systems: `public/systems/` (built with Vite)
 
 You can also build components separately:
 - `yarn build:server` - Build only the server
@@ -83,7 +83,8 @@ You can also build components separately:
 
 - `GET /` - Main weather page with server-rendered content
 - `GET /api/day?date=YYYY-MM-DD` - Get specific day forecast data
-- `GET /location` - Load location services client system
+- `GET /systems/location.js` - Location services client system
+- `GET /systems/weather.js` - Weather updates client system
 
 ## Performance Features
 
@@ -96,18 +97,14 @@ You can also build components separately:
 
 ## Environment Variables
 
-Create a `.env` file (optional, currently uses mock data):
-
-```env
-WEATHER_API=your_weather_api_key_here
-```
+Currently uses mock weather data. To use real weather data, uncomment the API call in `utils/fetch-weather.ts` and set the `WEATHER_API` environment variable (uses Vite's `import.meta.env` format).
 
 ## Deployment
 
 The project is configured for Vercel deployment with:
 - Standard Node.js runtime with Yarn
-- Optimized build process
-- Proper static asset handling
+- Serverless function at `api/[...path].js`
+- Static assets served from `public/`
 
 Deploy to Vercel:
 
@@ -121,4 +118,4 @@ Works on all modern browsers and gracefully degrades on older ones. Uses modern 
 
 ## License
 
-MIT License - see LICENSE file for details.
+FSL-1.1-MIT License - see LICENSE.md file for details.

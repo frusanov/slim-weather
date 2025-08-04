@@ -9,11 +9,11 @@ This project is an extremely lightweight weather website optimized for poor inte
 Default to using Node.js with Yarn for all operations:
 
 - Use `node <file>` or `tsx <file>` for TypeScript files
-- Use `yarn test` for running tests with Jest or Vitest
+- Tests are not yet implemented (placeholder script exists)
 - Use build tools like Webpack, esbuild, or Vite for bundling
 - Use `yarn install` for installing dependencies
 - Use `yarn <script>` for running package.json scripts
-- Use dotenv for loading environment variables
+- Uses Vite's `import.meta.env` for environment variables
 
 ## Development Commands
 
@@ -125,7 +125,8 @@ utils/
 
 - `GET /` - Server-rendered weather page
 - `GET /api/day?date=YYYY-MM-DD` - JSON day forecast
-- `GET /location` - JavaScript module for location services
+- `GET /systems/location.js` - JavaScript module for location services
+- `GET /systems/weather.js` - JavaScript module for weather updates
 
 Keep API responses minimal - only include necessary data.
 
@@ -133,21 +134,17 @@ Keep API responses minimal - only include necessary data.
 
 The dev script runs parallel processes for:
 
-1. Server bundle: Build and watch server-side code
-2. Client systems: Build and watch client-side TypeScript modules
+1. Server bundle: Build and watch server-side code using esbuild (outputs to `api/[...path].js` for Vercel)
+2. Client systems: Build and watch client-side TypeScript modules using Vite (outputs to `public/systems/`)
 3. Server: Run the development server with hot reload
+
+Production builds:
+- Server: `api/[...path].js` - Serverless function for Vercel
+- Client systems: `public/systems/*.js` - Static ES modules
 
 ### Testing
 
-Use `yarn test` for testing with Jest or Vitest:
-
-```ts
-import { test, expect } from "@jest/globals"; // or "vitest"
-
-test("weather widget renders", () => {
-  // Test implementation
-});
-```
+Testing framework is not yet implemented. The `yarn test` command currently shows a placeholder message. Consider adding Vitest for future testing needs.
 
 ### Deployment
 
