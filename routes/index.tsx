@@ -4,8 +4,10 @@ import { Layout } from "../components/layout.js";
 import { WeatherWidget } from "../components/weather-widget/index.js";
 import { Hono } from "hono";
 import { fetchWeather } from "../utils/fetch-weather.js";
+import type { UserPreferences } from "../types/preferences.js";
+import { getPreferences } from "../utils/preferences/server.js";
 
-export const IndexPage: FC = ({ weather }) => {
+export const IndexPage: FC = ({ weather, preferences }) => {
   return (
     <Layout>
       <div
@@ -22,7 +24,7 @@ export const IndexPage: FC = ({ weather }) => {
           }
         `}
       >
-        <WeatherWidget weather={weather} />
+        <WeatherWidget weather={weather} preferences={preferences} />
       </div>
     </Layout>
   );
@@ -32,5 +34,6 @@ export const indexRoute = new Hono();
 
 indexRoute.get("/", async (c) => {
   const weather = await fetchWeather("Izmir");
-  return c.html(<IndexPage weather={weather} />);
+  const preferences = await getPreferences(c);
+  return c.html(<IndexPage weather={weather} preferences={preferences} />);
 });

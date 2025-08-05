@@ -6,10 +6,13 @@ import { HourSnippet } from "./hour-snippet.js";
 import { WeatherDetails } from "./weather-details";
 import { formatWeatherData } from "@/utils/format-weather";
 import { noScrollbar } from "@/styles/mixins/no-scrollbar";
+import type { UserPreferences } from "@/types/preferences";
+import { TemperatureToggle } from "../temperature-toggle.js";
 
 export const WeatherWidget: FC<{
   weather: APIResponseMap["forecast.json"];
-}> = ({ weather }) => {
+  preferences?: UserPreferences;
+}> = ({ weather, preferences = { temperatureUnit: "c" } }) => {
   const currentDay = weather.forecast.forecastday[0] as ForecastDay;
 
   return (
@@ -29,15 +32,23 @@ export const WeatherWidget: FC<{
       <div
         class={css`
           font-size: 0.85rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
         `}
-        onclick={`loadSystem("location").then(() => window.systems.location.test())`}
       >
-        📌 {weather.location.name}
+        <div
+          onclick={`loadSystem("location").then(() => window.systems.location.test())`}
+        >
+          📌 {weather.location.name}
+        </div>
+        <TemperatureToggle preferences={preferences} />
       </div>
 
       <span data-slot="weather-details">
         <WeatherDetails
           weather={formatWeatherData(weather.current, "current")}
+          preferences={preferences}
         />
       </span>
 
@@ -55,7 +66,7 @@ export const WeatherWidget: FC<{
         )}
       >
         {weather.forecast.forecastday[0]?.hour.map((hour) => {
-          return <HourSnippet hour={hour} />;
+          return <HourSnippet hour={hour} preferences={preferences} />;
         })}
       </div>
 
@@ -71,7 +82,7 @@ export const WeatherWidget: FC<{
         )}
       >
         {weather.forecast.forecastday.map((day) => {
-          return <DaySnippet day={day} />;
+          return <DaySnippet day={day} preferences={preferences} />;
         })}
       </div>
     </div>

@@ -18,6 +18,7 @@ export default defineConfig(({ mode }) => {
           // Client systems only - server is handled separately
           location: resolve(__dirname, "client-systems/location.ts"),
           weather: resolve(__dirname, "client-systems/weather.ts"),
+          preferences: resolve(__dirname, "client-systems/preferences.ts"),
         },
         output: {
           dir: "public/systems",

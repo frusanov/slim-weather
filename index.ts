@@ -5,6 +5,7 @@ import { fetchWeather } from "./utils/fetch-weather.js";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { handle } from "hono/vercel";
 import { detailsRoute } from "./routes/details.js";
+import { preferencesRoute } from "./routes/preferences.js";
 
 const isVercel = Boolean(process.env.VERCEL_REGION);
 
@@ -24,6 +25,8 @@ if (!isVercel) {
 app.route("/", indexRoute);
 
 app.route("/_html/details", detailsRoute);
+
+app.route("/api/preferences", preferencesRoute);
 
 export default isVercel ? undefined : app;
 

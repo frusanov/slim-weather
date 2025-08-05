@@ -1,8 +1,19 @@
 import type { FC } from "hono/jsx";
 import type { ForecastDay } from "../../types/weather-api";
 import { css } from "@emotion/css";
+import type { UserPreferences } from "../../types/preferences";
+import { getTemperatureWithPreferences } from "../../utils/preferences/format-weather";
 
-export const DaySnippet: FC<{ day: ForecastDay }> = ({ day }) => {
+export const DaySnippet: FC<{
+  day: ForecastDay;
+  preferences?: UserPreferences;
+}> = ({ day, preferences = { temperatureUnit: "c" } }) => {
+  const temperature = getTemperatureWithPreferences(
+    day.day.maxtemp_c,
+    day.day.maxtemp_f,
+    preferences,
+  );
+  const tempSymbol = preferences.temperatureUnit === "f" ? "°F" : "°C";
   return (
     <div
       class={css`
@@ -22,13 +33,16 @@ export const DaySnippet: FC<{ day: ForecastDay }> = ({ day }) => {
         }
       `}
       data-date={day.date}
+      data-maxtemp-c={day.day.maxtemp_c}
+      data-maxtemp-f={day.day.maxtemp_f}
       onclick={`loadSystem("weather").then(() => window.systems.weather.setDate("${day.date}"))`}
     >
       {day.date}
       <br />
       UV: {day.day.uv}
       <br />
-      Temp: {day.day.maxtemp_c}
+      Temp: {Math.round(temperature)}
+      {tempSymbol}
       <br />
       {day.day.condition.text}
     </div>
