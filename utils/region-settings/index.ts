@@ -1,8 +1,6 @@
-export interface RegionSettings {
-  temperature: "c" | "f";
-}
+import { UserPreferences } from "@/types/preferences";
 
-export const defaultRegionSettings: RegionSettings = {
+export const defaultRegionSettings: UserPreferences = {
   temperature: "c",
 };
 
@@ -19,7 +17,7 @@ export async function getRegionSettings(iso3166Code: string) {
 
     const { default: regions } = await import(`./countries/${countryCode}.js`);
 
-    return regions[iso3166Code] as RegionSettings;
+    return regions[iso3166Code] as UserPreferences;
   } catch {
     return defaultRegionSettings;
   }

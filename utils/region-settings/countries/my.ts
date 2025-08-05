@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Malaysia - Celsius
@@ -18,4 +18,4 @@ export default {
   "MY-14": { temperature: "c" }, // Kuala Lumpur
   "MY-15": { temperature: "c" }, // Labuan
   "MY-16": { temperature: "c" }, // Putrajaya
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

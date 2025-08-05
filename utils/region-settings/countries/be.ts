@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Belgium - Celsius
@@ -13,4 +13,4 @@ export default {
   "BE-VOV": { temperature: "c" }, // East Flanders
   "BE-VWV": { temperature: "c" }, // West Flanders
   "BE-WBR": { temperature: "c" }, // Walloon Brabant
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

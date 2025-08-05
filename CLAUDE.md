@@ -107,26 +107,58 @@ components/
 ├── weather-widget/         # Weather display components
 │   ├── index.tsx          # Main widget
 │   ├── day-snippet.tsx    # Daily forecast
-│   └── hour-snippet.tsx   # Hourly forecast
-└── fetch-and-append.tsx   # Dynamic loading system
+│   ├── hour-snippet.tsx   # Hourly forecast
+│   └── weather-details.tsx # Weather details component
+├── fetch-and-append.tsx   # Dynamic loading system
+├── preferences-context.tsx # User preferences context
+├── temperature-toggle.tsx  # Temperature unit toggle
+└── temperature.tsx         # Temperature display component
 
-pages/
-└── index.tsx              # Main weather page
+routes/                     # Route handlers and pages
+├── index.tsx              # Home page
+├── api/                   # API endpoints
+│   ├── index.ts           # Main API routes
+│   └── preferences.ts     # User preferences API
+└── _html/                 # HTML-specific routes
+    ├── index.ts           # HTML route handlers
+    └── details.tsx        # Details page
 
 client-systems/            # On-demand client modules
 ├── location.ts           # Location services
-└── weather.ts            # Client weather updates
+├── weather.ts            # Client weather updates
+└── preferences.ts        # Preferences management
 
 utils/
-└── fetch-weather.ts      # Weather API integration
+├── fetch-weather.ts      # Weather API integration
+├── format-weather.ts     # Weather data formatting
+├── weather-emojis.ts     # Weather icon utilities
+└── region-settings/      # Regional settings utilities
+
+types/                     # TypeScript type definitions
+├── common.ts             # Common type definitions
+├── weather-api.ts        # Weather API types
+├── preferences.ts        # User preferences types
+└── client.ts             # Client-side types
+
+middleware/               # Request middleware
+└── preferences.ts        # Preferences middleware
+
+validators/               # Input validation
+└── preferences.ts        # Preferences validation
+
+styles/                   # Style utilities
+└── mixins/               # CSS mixins
+    └── no-scrollbar.ts   # Scrollbar hiding mixin
 ```
 
 ### API Design
 
 - `GET /` - Server-rendered weather page
-- `GET /api/day?date=YYYY-MM-DD` - JSON day forecast
+- `GET /api/preferences` - User preferences management
+- `GET /_html/details` - Weather details page
 - `GET /systems/location.js` - JavaScript module for location services
 - `GET /systems/weather.js` - JavaScript module for weather updates
+- `GET /systems/preferences.js` - JavaScript module for preferences management
 
 Keep API responses minimal - only include necessary data.
 

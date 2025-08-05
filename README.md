@@ -26,23 +26,54 @@ An extremely lightweight weather website designed to work fast even with very po
 
 ```
 slim-weather/
-├── components/           # Reusable UI components
+├── components/          # Reusable UI components
 │   ├── layout.tsx       # Base HTML layout with critical CSS
 │   ├── weather-widget/  # Main weather display components
-│   └── fetch-and-append.tsx # Dynamic content loading system
-├── pages/               # Page components
-│   └── index.tsx        # Home page
+│   │   ├── index.tsx    # Main weather widget
+│   │   ├── day-snippet.tsx # Daily forecast component
+│   │   ├── hour-snippet.tsx # Hourly forecast component
+│   │   └── weather-details.tsx # Weather details component
+│   ├── fetch-and-append.tsx # Dynamic content loading system
+│   ├── preferences-context.tsx # User preferences context
+│   ├── temperature-toggle.tsx # Temperature unit toggle
+│   └── temperature.tsx  # Temperature display component
+├── routes/              # Route handlers and pages
+│   ├── index.tsx        # Home page
+│   ├── api/             # API endpoints
+│   │   ├── index.ts     # Main API routes
+│   │   └── preferences.ts # User preferences API
+│   └── _html/           # HTML-specific routes
+│       ├── index.ts     # HTML route handlers
+│       └── details.tsx  # Details page
 ├── client-systems/      # On-demand client-side modules
 │   ├── location.ts      # Location services
-│   └── weather.ts       # Client-side weather updates
+│   ├── weather.ts       # Client-side weather updates
+│   └── preferences.ts   # Preferences management
 ├── utils/               # Utility functions
-│   └── fetch-weather.ts # Weather API integration
+│   ├── fetch-weather.ts # Weather API integration
+│   ├── format-weather.ts # Weather data formatting
+│   ├── weather-emojis.ts # Weather icon utilities
+│   └── region-settings/ # Regional settings utilities
 ├── types/               # TypeScript type definitions
+│   ├── common.ts        # Common type definitions
+│   ├── weather-api.ts   # Weather API types
+│   ├── preferences.ts   # User preferences types
+│   └── client.ts        # Client-side types
+├── middleware/          # Request middleware
+│   └── preferences.ts   # Preferences middleware
+├── validators/          # Input validation
+│   └── preferences.ts   # Preferences validation
+├── styles/              # Style utilities
+│   └── mixins/          # CSS mixins
+│       └── no-scrollbar.ts # Scrollbar hiding mixin
+├── api/                 # Built server bundle
+│   └── [...path].js     # Vercel serverless function
+├── public/              # Static assets
+│   └── systems/         # Built client systems
 ├── vite.config.ts       # Vite build configuration
 ├── build-server.js      # Server build script using esbuild
 ├── dev.js               # Development orchestration script
-├── dev-server.ts        # Development server entry point
-└── dist/                # Built assets
+└── dev-server.ts        # Development server entry point
 ```
 
 ## Installation
@@ -82,9 +113,11 @@ You can also build components separately:
 ## API Endpoints
 
 - `GET /` - Main weather page with server-rendered content
-- `GET /api/day?date=YYYY-MM-DD` - Get specific day forecast data
+- `GET /api/preferences` - User preferences management
+- `GET /_html/details` - Weather details page
 - `GET /systems/location.js` - Location services client system
 - `GET /systems/weather.js` - Weather updates client system
+- `GET /systems/preferences.js` - Preferences management client system
 
 ## Performance Features
 

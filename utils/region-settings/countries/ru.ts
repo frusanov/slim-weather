@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Russia - Celsius
@@ -84,4 +84,4 @@ export default {
   "RU-YAN": { temperature: "c" }, // Yamalo-Nenets
   "RU-YAR": { temperature: "c" }, // Yaroslavl Oblast
   "RU-ZAB": { temperature: "c" }, // Zabaykalsky Krai
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

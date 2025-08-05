@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Israel - Celsius
@@ -8,4 +8,4 @@ export default {
   "IL-M": { temperature: "c" }, // Central District
   "IL-TA": { temperature: "c" }, // Tel Aviv District
   "IL-Z": { temperature: "c" }, // Northern District
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

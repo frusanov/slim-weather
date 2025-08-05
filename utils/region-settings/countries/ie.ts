@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Ireland - Celsius
@@ -6,4 +6,4 @@ export default {
   "IE-L": { temperature: "c" }, // Leinster
   "IE-M": { temperature: "c" }, // Munster
   "IE-U": { temperature: "c" }, // Ulster (part of Republic of Ireland)
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

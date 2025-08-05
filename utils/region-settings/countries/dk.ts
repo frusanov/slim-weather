@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Denmark - Celsius
@@ -7,4 +7,4 @@ export default {
   "DK-81": { temperature: "c" }, // North Denmark
   "DK-85": { temperature: "c" }, // Zealand
   "DK-83": { temperature: "c" }, // Southern Denmark
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

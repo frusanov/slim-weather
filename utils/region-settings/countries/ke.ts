@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Kenya - Celsius
@@ -49,4 +49,4 @@ export default {
   "KE-45": { temperature: "c" }, // Vihiga
   "KE-46": { temperature: "c" }, // Wajir
   "KE-47": { temperature: "c" }, // West Pokot
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

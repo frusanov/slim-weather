@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Sweden - Celsius
@@ -23,4 +23,4 @@ export default {
   "SE-O": { temperature: "c" }, // Västra Götaland
   "SE-T": { temperature: "c" }, // Örebro
   "SE-E": { temperature: "c" }, // Östergötland
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

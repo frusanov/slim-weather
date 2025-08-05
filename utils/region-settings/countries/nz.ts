@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // New Zealand - Celsius
@@ -18,4 +18,4 @@ export default {
   "NZ-WKO": { temperature: "c" }, // Waikato
   "NZ-WGN": { temperature: "c" }, // Wellington
   "NZ-WTC": { temperature: "c" }, // West Coast
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

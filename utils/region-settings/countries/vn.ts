@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences.js";
 
 export default {
   // Vietnam - Celsius
@@ -64,4 +64,4 @@ export default {
   "VN-HN": { temperature: "c" }, // Hà Nội
   "VN-HP": { temperature: "c" }, // Hải Phòng
   "VN-SG": { temperature: "c" }, // Ho Chi Minh City
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

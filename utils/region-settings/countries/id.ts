@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Indonesia - Celsius
@@ -40,4 +40,4 @@ export default {
   "ID-PC": { temperature: "c" }, // Central Papua
   "ID-PM": { temperature: "c" }, // Highland Papua
   "ID-PW": { temperature: "c" }, // Southwest Papua
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

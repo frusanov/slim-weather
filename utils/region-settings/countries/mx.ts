@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Mexico - Celsius
@@ -34,4 +34,4 @@ export default {
   "MX-VER": { temperature: "c" }, // Veracruz
   "MX-YUC": { temperature: "c" }, // Yucatán
   "MX-ZAC": { temperature: "c" }, // Zacatecas
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

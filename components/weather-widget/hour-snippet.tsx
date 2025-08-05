@@ -1,33 +1,54 @@
 import type { FC } from "hono/jsx";
 import type { ForecastDay, Hour } from "../../types/weather-api";
 import { css } from "@emotion/css";
-import type { UserPreferences } from "../../types/preferences";
-import { getTemperatureWithPreferences } from "../../utils/preferences/format-weather";
+import { UserPreferences } from "@/types/preferences";
+import { Temperature } from "../temperature";
+import { getWeatherEmoji } from "@/utils/weather-emojis";
 
 export const HourSnippet: FC<{
   hour: Hour;
-  preferences?: UserPreferences;
-}> = ({ hour, preferences = { temperatureUnit: "c" } }) => {
-  const temperature = getTemperatureWithPreferences(
-    hour.temp_c,
-    hour.temp_f,
-    preferences,
-  );
-  const tempSymbol = preferences.temperatureUnit === "f" ? "°F" : "°C";
-
+}> = ({ hour }) => {
   return (
     <div
       class={css`
         background-color: #222;
         padding: 1rem;
         border-radius: 1rem;
+        cursor: pointer;
       `}
       onclick={`loadSystem("weather").then(() => window.systems.weather.setHour("${hour.time}"))`}
-      data-temp-c={hour.temp_c}
-      data-temp-f={hour.temp_f}
     >
-      {hour.time.split(" ")[1]} {Math.round(temperature)}
-      {tempSymbol} {hour.condition.text}
+      <div
+        class={css`
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+        `}
+      >
+        <div
+          class={css`
+            position: absolute;
+            top: -0.75rem;
+            right: -0.75rem;
+            font-size: 2rem;
+            opacity: 0.5;
+          `}
+        >
+          {getWeatherEmoji(hour.condition.code)}
+        </div>
+
+        <div
+          class={css`
+            font-size: 0.85rem;
+          `}
+        >
+          {hour.time.split(" ")[1]}
+        </div>
+        <Temperature c={hour.temp_c} f={hour.temp_f} />
+      </div>
     </div>
   );
 };

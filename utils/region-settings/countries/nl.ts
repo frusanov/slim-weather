@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Netherlands - Celsius
@@ -14,4 +14,4 @@ export default {
   "NL-UT": { temperature: "c" }, // Utrecht
   "NL-ZE": { temperature: "c" }, // Zeeland
   "NL-ZH": { temperature: "c" }, // South Holland
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

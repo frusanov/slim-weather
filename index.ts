@@ -1,11 +1,9 @@
 import { Hono } from "hono";
-import { IndexPage, indexRoute } from "./routes/index.js";
+import { indexRoute } from "./routes/index.js";
 import { compress } from "hono/compress";
-import { fetchWeather } from "./utils/fetch-weather.js";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { handle } from "hono/vercel";
-import { detailsRoute } from "./routes/details.js";
-import { preferencesRoute } from "./routes/preferences.js";
+import { preferencesMiddleware } from "./middleware/preferences.js";
 
 const isVercel = Boolean(process.env.VERCEL_REGION);
 
@@ -22,11 +20,9 @@ if (!isVercel) {
   );
 }
 
+app.use(preferencesMiddleware);
+
 app.route("/", indexRoute);
-
-app.route("/_html/details", detailsRoute);
-
-app.route("/api/preferences", preferencesRoute);
 
 export default isVercel ? undefined : app;
 

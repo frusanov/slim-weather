@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Switzerland - Celsius
@@ -28,4 +28,4 @@ export default {
   "CH-VS": { temperature: "c" }, // Valais
   "CH-ZG": { temperature: "c" }, // Zug
   "CH-ZH": { temperature: "c" }, // Zurich
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

@@ -1,8 +1,8 @@
+import { Hono } from "hono";
+import { PreferencesProvider } from "@/components/preferences-context";
 import { WeatherDetails } from "@/components/weather-widget/weather-details";
 import { fetchWeather } from "@/utils/fetch-weather";
 import { formatWeatherData } from "@/utils/format-weather";
-import { getPreferences } from "@/utils/preferences/server";
-import { Hono } from "hono";
 
 export const detailsRoute = new Hono();
 
@@ -10,7 +10,6 @@ detailsRoute.get(`/day/:date`, async (c) => {
   const date = c.req.param("date");
 
   const weather = await fetchWeather("Izmir");
-  const preferences = await getPreferences(c);
 
   const day = weather.forecast.forecastday.find((day) => day.date === date);
 
@@ -19,10 +18,9 @@ detailsRoute.get(`/day/:date`, async (c) => {
   }
 
   return c.html(
-    <WeatherDetails
-      weather={formatWeatherData(day.day, "day")}
-      preferences={preferences}
-    />,
+    <PreferencesProvider preferences={c.preferences.data}>
+      <WeatherDetails weather={formatWeatherData(day.day, "day")} />
+    </PreferencesProvider>,
   );
 });
 
@@ -32,7 +30,6 @@ detailsRoute.get(`/hour/:datetime`, async (c) => {
   const [date, time] = datetime.split(" ");
 
   const weather = await fetchWeather("Izmir");
-  const preferences = await getPreferences(c);
 
   const day = weather.forecast.forecastday.find((day) => day.date === date);
 
@@ -43,9 +40,8 @@ detailsRoute.get(`/hour/:datetime`, async (c) => {
   }
 
   return c.html(
-    <WeatherDetails
-      weather={formatWeatherData(hour, "hour")}
-      preferences={preferences}
-    />,
+    <PreferencesProvider preferences={c.preferences.data}>
+      <WeatherDetails weather={formatWeatherData(hour, "hour")} />
+    </PreferencesProvider>,
   );
 });

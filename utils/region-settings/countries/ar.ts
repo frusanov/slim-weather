@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Argentina - Celsius
@@ -26,4 +26,4 @@ export default {
   "AR-X": { temperature: "c" }, // Córdoba
   "AR-Y": { temperature: "c" }, // Jujuy
   "AR-Z": { temperature: "c" }, // Santa Cruz
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

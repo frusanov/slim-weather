@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Germany - Celsius
@@ -18,4 +18,4 @@ export default {
   "DE-ST": { temperature: "c" }, // Saxony-Anhalt
   "DE-SH": { temperature: "c" }, // Schleswig-Holstein
   "DE-TH": { temperature: "c" }, // Thuringia
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

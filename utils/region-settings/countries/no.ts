@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Norway - Celsius
@@ -23,4 +23,4 @@ export default {
   "NO-01": { temperature: "c" }, // Østfold
   "NO-21": { temperature: "c" }, // Svalbard
   "NO-22": { temperature: "c" }, // Jan Mayen
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

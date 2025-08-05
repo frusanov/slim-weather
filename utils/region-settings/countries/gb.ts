@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // United Kingdom - Celsius
@@ -6,4 +6,4 @@ export default {
   "GB-SCT": { temperature: "c" }, // Scotland
   "GB-WLS": { temperature: "c" }, // Wales
   "GB-NIR": { temperature: "c" }, // Northern Ireland
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

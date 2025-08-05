@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Canada - Celsius
@@ -15,4 +15,4 @@ export default {
   "CA-NT": { temperature: "c" }, // Northwest Territories
   "CA-NU": { temperature: "c" }, // Nunavut
   "CA-YT": { temperature: "c" }, // Yukon
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

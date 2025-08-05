@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Nigeria - Celsius
@@ -39,4 +39,4 @@ export default {
   "NG-TA": { temperature: "c" }, // Taraba
   "NG-YO": { temperature: "c" }, // Yobe
   "NG-ZA": { temperature: "c" }, // Zamfara
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

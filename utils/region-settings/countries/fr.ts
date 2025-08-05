@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // France - Celsius
@@ -15,4 +15,4 @@ export default {
   "FR-OCC": { temperature: "c" }, // Occitanie
   "FR-PDL": { temperature: "c" }, // Pays de la Loire
   "FR-PAC": { temperature: "c" }, // Provence-Alpes-Côte d'Azur
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

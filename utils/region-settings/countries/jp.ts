@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Japan - Celsius
@@ -49,4 +49,4 @@ export default {
   "JP-45": { temperature: "c" }, // Miyazaki
   "JP-46": { temperature: "c" }, // Kagoshima
   "JP-47": { temperature: "c" }, // Okinawa
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

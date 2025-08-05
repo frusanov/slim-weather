@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Austria - Celsius
@@ -11,4 +11,4 @@ export default {
   "AT-7": { temperature: "c" }, // Tyrol
   "AT-8": { temperature: "c" }, // Vorarlberg
   "AT-9": { temperature: "c" }, // Vienna
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

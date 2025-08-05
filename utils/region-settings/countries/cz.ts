@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Czech Republic - Celsius
@@ -16,4 +16,4 @@ export default {
   "CZ-US": { temperature: "c" }, // Usti nad Labem
   "CZ-VY": { temperature: "c" }, // Vysocina
   "CZ-ZL": { temperature: "c" }, // Zlin
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

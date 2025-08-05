@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Finland - Celsius
@@ -21,4 +21,4 @@ export default {
   "FI-17": { temperature: "c" }, // Satakunta
   "FI-18": { temperature: "c" }, // Uusimaa
   "FI-19": { temperature: "c" }, // Southwest Finland
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

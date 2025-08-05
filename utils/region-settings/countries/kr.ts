@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // South Korea - Celsius
@@ -18,4 +18,4 @@ export default {
   "KR-48": { temperature: "c" }, // South Gyeongsang
   "KR-49": { temperature: "c" }, // Jeju
   "KR-11": { temperature: "c" }, // Seoul
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

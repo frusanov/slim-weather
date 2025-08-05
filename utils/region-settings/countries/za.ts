@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // South Africa - Celsius
@@ -11,4 +11,4 @@ export default {
   "ZA-NC": { temperature: "c" }, // Northern Cape
   "ZA-NW": { temperature: "c" }, // North West
   "ZA-WC": { temperature: "c" }, // Western Cape
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

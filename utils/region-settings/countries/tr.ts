@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Turkey - Celsius
@@ -83,4 +83,4 @@ export default {
   "TR-79": { temperature: "c" }, // Kilis
   "TR-80": { temperature: "c" }, // Osmaniye
   "TR-81": { temperature: "c" }, // Düzce
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

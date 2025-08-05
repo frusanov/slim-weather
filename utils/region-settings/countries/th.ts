@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Thailand - Celsius
@@ -79,4 +79,4 @@ export default {
   "TH-95": { temperature: "c" }, // Yala
   "TH-96": { temperature: "c" }, // Narathiwat
   "TH-S": { temperature: "c" }, // Pattaya (Special Administrative Area)
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

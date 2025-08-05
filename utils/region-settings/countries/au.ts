@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Australia - Celsius
@@ -10,4 +10,4 @@ export default {
   "AU-WA": { temperature: "c" }, // Western Australia
   "AU-ACT": { temperature: "c" }, // Australian Capital Territory
   "AU-NT": { temperature: "c" }, // Northern Territory
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

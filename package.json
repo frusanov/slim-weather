@@ -21,8 +21,10 @@
     "@emotion/server": "^11.11.0",
     "@hono/node-server": "^1.18.1",
     "bun-compression": "^0.0.6",
+    "date-fns": "^4.1.0",
     "hono": "^4.8.12",
-    "postcss": "^8.5.6"
+    "postcss": "^8.5.6",
+    "zod": "^4.0.14"
   },
   "scripts": {
     "dev": "node dev.js",

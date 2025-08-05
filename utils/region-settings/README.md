@@ -83,7 +83,7 @@ const settings3 = await getRegionSettings('INVALID'); // { temperature: "c" }
 
 ## Data Format
 
-Each country file exports a default object as `Record<string, RegionSettings>` where:
+Each country file exports a default object as `Record<string, UserPreferences>` where:
 - Keys are ISO 3166-2 codes (e.g., "US-CA" for California, USA)
 - Values are `RegionSettings` objects with temperature unit preferences
 
@@ -96,13 +96,13 @@ export interface RegionSettings {
 Example country file structure:
 
 ```ts
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   "US-CA": { temperature: "f" }, // California
   "US-NY": { temperature: "f" }, // New York
   // ... more states
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;
 ```
 
 ## Performance Benefits
@@ -119,12 +119,12 @@ To add a new country:
 1. Create a new file in `countries/` directory (e.g., `countries/xx.ts`)
 2. Export a default object with region mappings:
    ```ts
-   import type { RegionSettings } from "../index.js";
-   
+   import { UserPreferences } from "@/types/preferences";
+
    export default {
      "XX-01": { temperature: "c" }, // Region name
      // ... more regions
-   } satisfies Record<string, RegionSettings>;
+   } satisfies Record<string, UserPreferences>;
    ```
 3. The new country will be automatically available via lazy loading
 

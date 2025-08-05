@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Brazil - Celsius
@@ -29,4 +29,4 @@ export default {
   "BR-SP": { temperature: "c" }, // São Paulo
   "BR-SE": { temperature: "c" }, // Sergipe
   "BR-TO": { temperature: "c" }, // Tocantins
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

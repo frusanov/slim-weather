@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // China - Celsius
@@ -36,4 +36,4 @@ export default {
   "CN-71": { temperature: "c" }, // Taiwan
   "CN-91": { temperature: "c" }, // Hong Kong
   "CN-92": { temperature: "c" }, // Macao
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

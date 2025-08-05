@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // United States - Fahrenheit
@@ -53,4 +53,4 @@ export default {
   "US-WI": { temperature: "f" }, // Wisconsin
   "US-WY": { temperature: "f" }, // Wyoming
   "US-DC": { temperature: "f" }, // District of Columbia
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

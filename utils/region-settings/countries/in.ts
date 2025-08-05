@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // India - Celsius
@@ -38,4 +38,4 @@ export default {
   "IN-UP": { temperature: "c" }, // Uttar Pradesh
   "IN-UT": { temperature: "c" }, // Uttarakhand
   "IN-WB": { temperature: "c" }, // West Bengal
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

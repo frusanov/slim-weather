@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Pakistan - Celsius
@@ -10,4 +10,4 @@ export default {
   "PK-SD": { temperature: "c" }, // Sindh
   "PK-TA": { temperature: "c" }, // Federally Administered Tribal Areas
   "PK-GB": { temperature: "c" }, // Gilgit-Baltistan
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

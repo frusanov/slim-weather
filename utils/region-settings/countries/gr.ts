@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Greece - Celsius
@@ -15,4 +15,4 @@ export default {
   "GR-K": { temperature: "c" }, // Thessaly
   "GR-L": { temperature: "c" }, // West Greece
   "GR-M": { temperature: "c" }, // West Macedonia
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

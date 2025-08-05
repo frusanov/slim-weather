@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Italy - Celsius
@@ -22,4 +22,4 @@ export default {
   "IT-55": { temperature: "c" }, // Umbria
   "IT-23": { temperature: "c" }, // Valle d'Aosta
   "IT-34": { temperature: "c" }, // Veneto
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

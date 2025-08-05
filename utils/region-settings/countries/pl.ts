@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Poland - Celsius
@@ -18,4 +18,4 @@ export default {
   "PL-WN": { temperature: "c" }, // Warmia-Masuria
   "PL-WP": { temperature: "c" }, // Greater Poland
   "PL-ZP": { temperature: "c" }, // West Pomerania
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

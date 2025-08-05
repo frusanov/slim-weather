@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Bangladesh - Celsius
@@ -10,4 +10,4 @@ export default {
   "BD-F": { temperature: "c" }, // Rangpur Division
   "BD-G": { temperature: "c" }, // Sylhet Division
   "BD-H": { temperature: "c" }, // Mymensingh Division
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

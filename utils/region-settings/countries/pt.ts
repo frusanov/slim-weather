@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Portugal - Celsius
@@ -22,4 +22,4 @@ export default {
   "PT-18": { temperature: "c" }, // Viseu
   "PT-20": { temperature: "c" }, // Azores
   "PT-30": { temperature: "c" }, // Madeira
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

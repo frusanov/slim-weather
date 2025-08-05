@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Singapore - Celsius
@@ -7,4 +7,4 @@ export default {
   "SG-03": { temperature: "c" }, // North West
   "SG-04": { temperature: "c" }, // South East
   "SG-05": { temperature: "c" }, // South West
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

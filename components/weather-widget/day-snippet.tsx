@@ -1,25 +1,28 @@
 import type { FC } from "hono/jsx";
 import type { ForecastDay } from "../../types/weather-api";
 import { css } from "@emotion/css";
-import type { UserPreferences } from "../../types/preferences";
-import { getTemperatureWithPreferences } from "../../utils/preferences/format-weather";
+import { UserPreferences } from "@/types/preferences";
+import { Temperature } from "../temperature";
+import { getWeatherEmoji } from "@/utils/weather-emojis";
+import { format, fromUnixTime, parseISO } from "date-fns";
 
 export const DaySnippet: FC<{
   day: ForecastDay;
-  preferences?: UserPreferences;
-}> = ({ day, preferences = { temperatureUnit: "c" } }) => {
-  const temperature = getTemperatureWithPreferences(
-    day.day.maxtemp_c,
-    day.day.maxtemp_f,
-    preferences,
-  );
-  const tempSymbol = preferences.temperatureUnit === "f" ? "°F" : "°C";
+}> = ({ day }) => {
   return (
     <div
       class={css`
         padding: 1rem;
         border-right: 2px solid #fff;
         font-size: 1rem;
+
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
 
         cursor: pointer;
 
@@ -32,19 +35,28 @@ export const DaySnippet: FC<{
           border-right: none;
         }
       `}
-      data-date={day.date}
-      data-maxtemp-c={day.day.maxtemp_c}
-      data-maxtemp-f={day.day.maxtemp_f}
       onclick={`loadSystem("weather").then(() => window.systems.weather.setDate("${day.date}"))`}
     >
-      {day.date}
-      <br />
-      UV: {day.day.uv}
-      <br />
-      Temp: {Math.round(temperature)}
-      {tempSymbol}
-      <br />
-      {day.day.condition.text}
+      {format(fromUnixTime(day.date_epoch), "dd EEE")}
+
+      <div
+        class={css`
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+        `}
+      >
+        <div
+          class={css`
+            font-size: 2rem;
+          `}
+        >
+          {getWeatherEmoji(day.day.condition.code)}
+        </div>
+        <Temperature c={day.day.avgtemp_c} f={day.day.avgtemp_f} />
+      </div>
     </div>
   );
 };

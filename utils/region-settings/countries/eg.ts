@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Egypt - Celsius
@@ -29,4 +29,4 @@ export default {
   "EG-SIN": { temperature: "c" }, // North Sinai
   "EG-SUZ": { temperature: "c" }, // Suez
   "EG-WAD": { temperature: "c" }, // New Valley
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

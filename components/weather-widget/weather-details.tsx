@@ -1,43 +1,36 @@
+import { FC } from "hono/jsx";
 import { CommonWeatherFormat } from "@/types/common";
 import { css } from "@emotion/css";
-import { FC } from "hono/jsx";
-import type { UserPreferences } from "@/types/preferences";
-import {
-  getUnitsForPreferences,
-  getTemperatureWithPreferences,
-} from "@/utils/preferences/format-weather";
 import { getWeatherEmoji } from "@/utils/weather-emojis";
+import { UserPreferences } from "@/types/preferences";
+import { usePreferences } from "../preferences-context";
+import { Temperature } from "../temperature";
 
 export const WeatherDetails: FC<{
   weather: CommonWeatherFormat;
-  preferences?: UserPreferences;
-}> = ({ weather, preferences = { temperatureUnit: "c" } }) => {
-  const units = getUnitsForPreferences(preferences);
-  const temperature = getTemperatureWithPreferences(
-    weather.temperature_c,
-    weather.temperature_f,
-    preferences,
-  );
-  const feelsLike =
-    weather.feels_like_c && weather.feels_like_f
-      ? getTemperatureWithPreferences(
-          weather.feels_like_c,
-          weather.feels_like_f,
-          preferences,
-        )
-      : undefined;
-  const windSpeed =
-    preferences.temperatureUnit === "f"
-      ? weather.wind_speed_mph
-      : weather.wind_speed_kph;
-  const visibility =
-    preferences.temperatureUnit === "f"
-      ? weather.visibility_miles
-      : weather.visibility_km;
-  const precipitation =
-    preferences.temperatureUnit === "f"
-      ? weather.precipitation_in
-      : weather.precipitation_mm;
+}> = ({ weather }) => {
+  // const units = getUnitsForPreferences(preferences);
+  const preferences = usePreferences();
+
+  const isCelsius = preferences.temperature === "c";
+
+  const temperature =
+    preferences.temperature === "c"
+      ? weather.temperature_c
+      : weather.temperature_f;
+
+  const feelsLike = isCelsius ? weather.feels_like_c : weather.feels_like_f;
+
+  const windSpeed = isCelsius ? weather.wind_speed_kph : weather.wind_speed_mph;
+
+  const visibility = isCelsius
+    ? weather.visibility_km
+    : weather.visibility_miles;
+
+  const precipitation = isCelsius
+    ? weather.precipitation_mm
+    : weather.precipitation_in;
+
   return (
     <div
       class={css`
@@ -57,14 +50,7 @@ export const WeatherDetails: FC<{
             font-weight: bold;
           `}
         >
-          <span
-            data-slot="temperature_c"
-            data-temp-c={weather.temperature_c}
-            data-temp-f={weather.temperature_f}
-          >
-            {Math.round(temperature)}
-          </span>
-          <span class="temp-unit">{units.temperature}</span>{" "}
+          <Temperature c={weather.temperature_c} f={weather.temperature_f} />
           {getWeatherEmoji(weather.condition.code)} <br />
           <span
             data-slot="condition.text"
@@ -95,7 +81,7 @@ export const WeatherDetails: FC<{
           >
             {Math.round(windSpeed)}
           </span>{" "}
-          {units.windSpeed}
+          {windSpeed}
           {weather.wind_dir && <span> ({weather.wind_dir})</span>}
         </div>
         <div>
@@ -107,7 +93,7 @@ export const WeatherDetails: FC<{
           >
             {Math.round(visibility)}
           </span>{" "}
-          {units.visibility}
+          {visibility}
         </div>
         <div>
           UV Index: <span data-slot="uv">{weather.uv}</span>
@@ -121,19 +107,15 @@ export const WeatherDetails: FC<{
           >
             {precipitation}
           </span>{" "}
-          {units.precipitation}
+          {precipitation}
         </div>
         {feelsLike !== undefined && (
           <div>
             Feels like:{" "}
-            <span
-              data-slot="feels_like_c"
-              data-feels-like-c={weather.feels_like_c}
-              data-feels-like-f={weather.feels_like_f}
-            >
-              {Math.round(feelsLike)}
-            </span>
-            <span class="temp-unit">{units.temperature}</span>
+            <Temperature
+              c={weather.feels_like_c as number}
+              f={weather.feels_like_f as number}
+            />
           </div>
         )}
         {weather.type === "current" && weather.time && (

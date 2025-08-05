@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Spain - Celsius
@@ -21,4 +21,4 @@ export default {
   "ES-VC": { temperature: "c" }, // Valencia
   "ES-CE": { temperature: "c" }, // Ceuta
   "ES-ML": { temperature: "c" }, // Melilla
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;

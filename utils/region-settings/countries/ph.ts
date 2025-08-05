@@ -1,4 +1,4 @@
-import type { RegionSettings } from "../index.js";
+import { UserPreferences } from "@/types/preferences";
 
 export default {
   // Philippines - Celsius
@@ -19,4 +19,4 @@ export default {
   "PH-15": { temperature: "c" }, // Cordillera Administrative Region
   "PH-40": { temperature: "c" }, // CALABARZON
   "PH-41": { temperature: "c" }, // MIMAROPA
-} satisfies Record<string, RegionSettings>;
+} satisfies Record<string, UserPreferences>;
