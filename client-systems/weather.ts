@@ -2,53 +2,42 @@ import type { APIResponseMap } from "../types/weather-api";
 
 type Day = APIResponseMap["forecast.json"]["forecast"]["forecastday"][number];
 
-const cache: Record<string, Day> = {};
+const cacheHours: Record<string, string> = {};
+const cacheDays: Record<string, string> = {};
 
 window.systems.weather = {
-  state: {},
-  async setHour(hour: string) {
-    console.log({ hour });
-  },
-  async setDate(date: string) {
-    console.log({ date });
-    const slotsToFill = [
-      "temp_c",
-      "humidity",
-      "wind_kph",
-      "pressure_mb",
-      "vis_km",
-      "uv",
-      "cloud",
-      "precip_mm",
-    ];
+  async setHour(datetime: string) {
+    if (!cacheHours[datetime]) {
+      const hourHTML = await fetch(`/_html/details/hour/${datetime}`).then(
+        (r) => r.text(),
+      );
 
-    if (!cache[date]) {
-      const day = (await fetch(`/api/day?date=${date}`).then((res) =>
-        res.json(),
-      )) as Day;
-
-      cache[date] = day;
+      cacheHours[datetime] = hourHTML;
     }
 
-    const $elementsWithSlots = document.querySelectorAll(`[data-slot]`);
+    const $detailsSlot = document.querySelector(
+      `[data-slot="weather-details"]`,
+    );
 
-    const draft = {};
+    if ($detailsSlot) {
+      $detailsSlot.innerHTML = cacheHours[datetime];
+    }
+  },
+  async setDate(date: string) {
+    if (!cacheDays[date]) {
+      const dayHTML = await fetch(`/_html/details/day/${date}`).then((r) =>
+        r.text(),
+      );
 
-    Array.from($elementsWithSlots).forEach(($el: HTMLElement) => {
-      // console.log("$el.dataset.slot", $el.dataset.slot);
+      cacheDays[date] = dayHTML;
+    }
 
-      $el.dataset.slot.split(",").map((s) => {
-        const slot = s.trim();
-        draft[slot] = $el;
-      });
-    });
+    const $detailsSlot = document.querySelector(
+      `[data-slot="weather-details"]`,
+    );
 
-    console.log({ draft });
-
-    Object.entries(draft).forEach(([slot, $el]) => {
-      if (cache[date].day[slot]) {
-        $el.innerText = cache[date].day[slot];
-      }
-    });
+    if ($detailsSlot) {
+      $detailsSlot.innerHTML = cacheDays[date];
+    }
   },
 };

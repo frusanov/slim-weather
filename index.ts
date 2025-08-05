@@ -1,9 +1,10 @@
 import { Hono } from "hono";
-import { IndexPage, indexRoute } from "./pages/index.js";
+import { IndexPage, indexRoute } from "./routes/index.js";
 import { compress } from "hono/compress";
 import { fetchWeather } from "./utils/fetch-weather.js";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { handle } from "hono/vercel";
+import { detailsRoute } from "./routes/details.js";
 
 const isVercel = Boolean(process.env.VERCEL_REGION);
 
@@ -22,24 +23,7 @@ if (!isVercel) {
 
 app.route("/", indexRoute);
 
-app.get("/api/day", async (c) => {
-  const date = c.req.query("date");
-
-  console.log({ date });
-
-  const weather = await fetchWeather("Izmir");
-
-  const day = weather.forecast.forecastday.find((day) => day.date === date);
-
-  if (!day) {
-    return new Response("404", { status: 404 });
-  }
-
-  return c.json({
-    ...day,
-    hour: null,
-  });
-});
+app.route("/_html/details", detailsRoute);
 
 export default isVercel ? undefined : app;
 
