@@ -1,0 +1,52 @@
+import type { RegionSettings } from "../index.js";
+
+export default {
+  // Japan - Celsius
+  "JP-01": { temperature: "c" }, // Hokkaido
+  "JP-02": { temperature: "c" }, // Aomori
+  "JP-03": { temperature: "c" }, // Iwate
+  "JP-04": { temperature: "c" }, // Miyagi
+  "JP-05": { temperature: "c" }, // Akita
+  "JP-06": { temperature: "c" }, // Yamagata
+  "JP-07": { temperature: "c" }, // Fukushima
+  "JP-08": { temperature: "c" }, // Ibaraki
+  "JP-09": { temperature: "c" }, // Tochigi
+  "JP-10": { temperature: "c" }, // Gunma
+  "JP-11": { temperature: "c" }, // Saitama
+  "JP-12": { temperature: "c" }, // Chiba
+  "JP-13": { temperature: "c" }, // Tokyo
+  "JP-14": { temperature: "c" }, // Kanagawa
+  "JP-15": { temperature: "c" }, // Niigata
+  "JP-16": { temperature: "c" }, // Toyama
+  "JP-17": { temperature: "c" }, // Ishikawa
+  "JP-18": { temperature: "c" }, // Fukui
+  "JP-19": { temperature: "c" }, // Yamanashi
+  "JP-20": { temperature: "c" }, // Nagano
+  "JP-21": { temperature: "c" }, // Gifu
+  "JP-22": { temperature: "c" }, // Shizuoka
+  "JP-23": { temperature: "c" }, // Aichi
+  "JP-24": { temperature: "c" }, // Mie
+  "JP-25": { temperature: "c" }, // Shiga
+  "JP-26": { temperature: "c" }, // Kyoto
+  "JP-27": { temperature: "c" }, // Osaka
+  "JP-28": { temperature: "c" }, // Hyogo
+  "JP-29": { temperature: "c" }, // Nara
+  "JP-30": { temperature: "c" }, // Wakayama
+  "JP-31": { temperature: "c" }, // Tottori
+  "JP-32": { temperature: "c" }, // Shimane
+  "JP-33": { temperature: "c" }, // Okayama
+  "JP-34": { temperature: "c" }, // Hiroshima
+  "JP-35": { temperature: "c" }, // Yamaguchi
+  "JP-36": { temperature: "c" }, // Tokushima
+  "JP-37": { temperature: "c" }, // Kagawa
+  "JP-38": { temperature: "c" }, // Ehime
+  "JP-39": { temperature: "c" }, // Kochi
+  "JP-40": { temperature: "c" }, // Fukuoka
+  "JP-41": { temperature: "c" }, // Saga
+  "JP-42": { temperature: "c" }, // Nagasaki
+  "JP-43": { temperature: "c" }, // Kumamoto
+  "JP-44": { temperature: "c" }, // Oita
+  "JP-45": { temperature: "c" }, // Miyazaki
+  "JP-46": { temperature: "c" }, // Kagoshima
+  "JP-47": { temperature: "c" }, // Okinawa
+} satisfies Record<string, RegionSettings>;
