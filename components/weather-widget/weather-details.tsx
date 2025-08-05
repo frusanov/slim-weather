@@ -3,10 +3,10 @@ import { css } from "@emotion/css";
 import { FC } from "hono/jsx";
 import type { UserPreferences } from "@/types/preferences";
 import {
-  formatTemperatureWithPreferences,
   getUnitsForPreferences,
   getTemperatureWithPreferences,
 } from "@/utils/preferences/format-weather";
+import { getWeatherEmoji } from "@/utils/weather-emojis";
 
 export const WeatherDetails: FC<{
   weather: CommonWeatherFormat;
@@ -64,8 +64,16 @@ export const WeatherDetails: FC<{
           >
             {Math.round(temperature)}
           </span>
-          <span class="temp-unit">{units.temperature}</span> ⛅ <br />
-          <span data-slot="condition.text">{weather.condition.text}</span>
+          <span class="temp-unit">{units.temperature}</span>{" "}
+          {getWeatherEmoji(weather.condition.code)} <br />
+          <span
+            data-slot="condition.text"
+            class={css`
+              font-size: 1rem;
+            `}
+          >
+            {weather.condition.text}
+          </span>
         </div>
       </div>
 
