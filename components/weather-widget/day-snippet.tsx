@@ -17,6 +17,9 @@ export const DaySnippet: FC<{
         font-size: 1rem;
 
         width: 100%;
+        min-width: 55px;
+
+        box-sizing: content-box;
 
         display: flex;
         flex-direction: column;

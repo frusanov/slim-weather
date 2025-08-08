@@ -5,6 +5,7 @@ import { getWeatherEmoji } from "@/utils/weather-emojis";
 import { UserPreferences } from "@/types/preferences";
 import { usePreferences } from "../preferences-context";
 import { Temperature } from "../temperature";
+import { lowerThan } from "@/styles/mixins/breakpoints";
 
 export const WeatherDetails: FC<{
   weather: CommonWeatherFormat;
@@ -36,6 +37,13 @@ export const WeatherDetails: FC<{
       class={css`
         display: flex;
         gap: 1rem;
+
+        ${lowerThan(
+          "sm",
+          css`
+            flex-direction: column;
+          `,
+        )}
       `}
     >
       <div

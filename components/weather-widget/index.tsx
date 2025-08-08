@@ -9,6 +9,7 @@ import { noScrollbar } from "@/styles/mixins/no-scrollbar";
 import { TemperatureToggle } from "../temperature-toggle.js";
 import { UserPreferences } from "@/types/preferences";
 import { usePreferences } from "../preferences-context";
+import { lowerThan } from "@/styles/mixins/breakpoints";
 
 export const WeatherWidget: FC<{
   weather: APIResponseMap["forecast.json"];
@@ -28,7 +29,7 @@ export const WeatherWidget: FC<{
         font-size: 1.5rem;
         padding: 1.5rem;
         overflow: hidden;
-        max-width: 600px;
+        max-width: 640px;
 
         transition: all 0.3s ease-in-out;
 
@@ -37,6 +38,13 @@ export const WeatherWidget: FC<{
           opacity: 0.75;
           filter: blur(5px);
         }
+
+        ${lowerThan(
+          "sm",
+          css`
+            height: 100%;
+          `,
+        )}
       `}
       data-slot="weather-widget"
     >
@@ -55,9 +63,73 @@ export const WeatherWidget: FC<{
         </div>
 
         <div
+          class={css`
+            border: 2px solid #fff;
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            margin-left: 1rem;
+            margin-right: auto;
+
+            overflow: hidden;
+
+            display: flex;
+            align-items: center;
+          `}
           onclick={`loadSystem("weather").then(() => window.systems.weather.restoreCurrent())`}
         >
-          Restore
+          <div
+            class={css`
+              border-right: 1px solid #fff;
+              margin: -0.5rem 0;
+              margin-right: 0.5rem;
+              padding-right: 0.5rem;
+
+              display: flex;
+              align-items: center;
+
+              svg,
+              img {
+                width: 1rem;
+                height: 1rem;
+              }
+            `}
+          >
+            <button
+              class={css`
+                background: transparent;
+                margin-left: -0.5rem;
+                margin-right: -0.5rem;
+                border: none;
+                color: currentColor;
+                padding: 0.25rem 0.5rem;
+
+                cursor: pointer;
+
+                transition: background-color 0.2s ease-in-out;
+
+                &:hover {
+                  background: #2d2d2c;
+                }
+              `}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-undo2-icon lucide-undo-2"
+              >
+                <path d="M9 14 4 9l5-5" />
+                <path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11" />
+              </svg>
+            </button>
+          </div>
+          Current Weather
         </div>
 
         <TemperatureToggle />
@@ -78,6 +150,7 @@ export const WeatherWidget: FC<{
             overflow-x: scroll;
             margin: 0 -1.5rem;
             padding: 0 1.5rem 0.5rem;
+            margin-top: auto;
           `,
           noScrollbar,
         )}
@@ -95,6 +168,7 @@ export const WeatherWidget: FC<{
             margin: 0 -1.5rem -1.5rem;
             border-top: 2px solid #fff;
             overflow-x: scroll;
+            min-width: 120px;
           `,
           noScrollbar,
         )}

@@ -15,6 +15,10 @@ export const Layout = ({ children }: { children?: any }) => {
     background-color: #fff;
     color: #000;
 
+    * {
+      box-sizing: border-box;
+    }
+
     @media (prefers-color-scheme: dark) {
       background-color: #000;
       color: #fff;

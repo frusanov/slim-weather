@@ -21,8 +21,10 @@ export const IndexPage: FC = ({ weather, preferences }) => {
             justify-content: center;
             align-items: center;
 
+            padding: 1rem;
+
             & > div {
-              max-width: 600px;
+              max-width: 640px;
             }
           `}
         >
