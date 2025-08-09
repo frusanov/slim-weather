@@ -20,6 +20,7 @@
     "@emotion/css": "^11.13.5",
     "@emotion/server": "^11.11.0",
     "@hono/node-server": "^1.18.1",
+    "@upstash/redis": "^1.35.3",
     "@vercel/functions": "^2.2.8",
     "bun-compression": "^0.0.6",
     "date-fns": "^4.1.0",

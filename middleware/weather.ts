@@ -1,5 +1,4 @@
 import { fetchWeather } from "@/utils/fetch-weather";
-import { type Geo, geolocation } from "@vercel/functions";
 import { MiddlewareHandler } from "hono";
 
 declare module "hono" {
