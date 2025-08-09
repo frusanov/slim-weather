@@ -1,17 +1,20 @@
 import { Hono } from "hono";
 import { indexRoute } from "./routes/index.js";
 import { compress } from "hono/compress";
-import { geolocation } from "@vercel/functions";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { handle } from "hono/vercel";
+import { config } from "dotenv";
 import { preferencesMiddleware } from "./middleware/preferences.js";
 import { locationMiddleware } from "./middleware/location.js";
+import { weatherMiddleware } from "./middleware/weather.js";
 
 const isVercel = Boolean(process.env.VERCEL_REGION);
 
 const app = new Hono();
 
 if (!isVercel) {
+  config();
+
   app.use(compress());
 
   app.use(
@@ -23,6 +26,7 @@ if (!isVercel) {
 }
 
 app.use(locationMiddleware);
+app.use(weatherMiddleware);
 app.use(preferencesMiddleware);
 
 app.route("/", indexRoute);

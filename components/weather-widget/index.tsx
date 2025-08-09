@@ -15,10 +15,6 @@ import { lowerThan } from "@/styles/mixins/breakpoints";
 export const WeatherWidget: FC<{
   weather: APIResponseMap["forecast.json"];
 }> = ({ weather }) => {
-  const currentDay = weather.forecast.forecastday[0] as ForecastDay;
-
-  const preferences = usePreferences();
-
   return (
     <div
       class={css`

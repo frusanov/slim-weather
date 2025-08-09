@@ -10,9 +10,7 @@ export const detailsRoute = new Hono();
 detailsRoute.get(`/day/:date`, async (c) => {
   const date = c.req.param("date");
 
-  const weather = await fetchWeather("Izmir");
-
-  const day = weather.forecast.forecastday.find((day) => day.date === date);
+  const day = c.weather.forecast.forecastday.find((day) => day.date === date);
 
   if (!day) {
     return new Response("404", { status: 404 });
@@ -30,9 +28,7 @@ detailsRoute.get(`/hour/:datetime`, async (c) => {
 
   const [date, time] = datetime.split(" ");
 
-  const weather = await fetchWeather("Izmir");
-
-  const day = weather.forecast.forecastday.find((day) => day.date === date);
+  const day = c.weather.forecast.forecastday.find((day) => day.date === date);
 
   const hour = day?.hour.find((hour) => hour.time === `${date} ${time}`);
 
