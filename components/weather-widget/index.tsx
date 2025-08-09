@@ -1,4 +1,5 @@
 import type { FC } from "hono/jsx";
+
 import { css, cx } from "@emotion/css";
 import type { APIResponseMap, ForecastDay } from "../../types/weather-api";
 import { DaySnippet } from "./day-snippet.js";
@@ -33,6 +34,14 @@ export const WeatherWidget: FC<{
 
         transition: all 0.3s ease-in-out;
 
+        /* Hide undo icon in current mode and show for day/hour modes */
+        & .undo-icon {
+          display: none;
+        }
+        &:not([data-mode="current"]) .undo-icon {
+          display: flex;
+        }
+
         &.disabled {
           pointer-events: none;
           opacity: 0.75;
@@ -47,6 +56,7 @@ export const WeatherWidget: FC<{
         )}
       `}
       data-slot="weather-widget"
+      data-mode="current"
     >
       <div
         class={css`
@@ -78,21 +88,24 @@ export const WeatherWidget: FC<{
           onclick={`loadSystem("weather").then(() => window.systems.weather.restoreCurrent())`}
         >
           <div
-            class={css`
-              border-right: 1px solid #fff;
-              margin: -0.5rem 0;
-              margin-right: 0.5rem;
-              padding-right: 0.5rem;
+            class={cx(
+              css`
+                border-right: 1px solid #fff;
+                margin: -0.5rem 0;
+                margin-right: 0.5rem;
+                padding-right: 0.5rem;
 
-              display: flex;
-              align-items: center;
+                display: flex;
+                align-items: center;
 
-              svg,
-              img {
-                width: 1rem;
-                height: 1rem;
-              }
-            `}
+                svg,
+                img {
+                  width: 1rem;
+                  height: 1rem;
+                }
+              `,
+              "undo-icon",
+            )}
           >
             <button
               class={css`
@@ -129,7 +142,7 @@ export const WeatherWidget: FC<{
               </svg>
             </button>
           </div>
-          Current Weather
+          <span data-slot="mode-label">Current Weather</span>
         </div>
 
         <TemperatureToggle />
@@ -172,6 +185,7 @@ export const WeatherWidget: FC<{
           `,
           noScrollbar,
         )}
+        data-slot="weather-days"
       >
         {weather.forecast.forecastday.map((day) => {
           return <DaySnippet day={day} />;

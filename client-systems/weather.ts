@@ -2,10 +2,12 @@ declare module "@/types/client" {
   interface Systems {
     weather?: {
       currentDay: string | null;
+      initialHourly: string | null;
       setHour: (datetime: string) => Promise<void>;
       setDate: (date: string) => Promise<void>;
       _saveCurrent: () => void;
       restoreCurrent: () => void;
+      setMode: (mode: "current" | "day" | "hour") => void;
     };
   }
 }
@@ -18,20 +20,68 @@ const backIcon = `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5v
 
 window.systems.weather = {
   currentDay: null,
+  initialHourly: null,
+  setMode(mode) {
+    const root = document.querySelector(
+      `[data-slot="weather-widget"]`,
+    ) as HTMLElement | null;
+    if (root) root.setAttribute("data-mode", mode);
+
+    const label = document.querySelector(
+      `[data-slot="mode-label"]`,
+    ) as HTMLElement | null;
+    if (label) {
+      label.textContent =
+        mode === "current"
+          ? "Current Weather"
+          : mode === "day"
+            ? "Day Average"
+            : "Hourly Forecast";
+    }
+
+    // Show undo icon only for day/hour modes
+    const undoSvg = document.querySelector(
+      `.lucide-undo-2, .lucide-undo2-icon`,
+    ) as HTMLElement | null;
+    const holder = undoSvg?.parentElement?.parentElement as
+      | HTMLElement
+      | undefined;
+    if (holder) holder.style.display = mode === "current" ? "none" : "flex";
+  },
   _saveCurrent: () => {
     if (window.systems.weather?.currentDay) return;
 
-    const $el = window.document.querySelector(`[data-slot="weather-details"]`);
+    const $el = window.document.querySelector(
+      `[data-slot="weather-details"]`,
+    ) as HTMLElement | null;
     window.systems.weather!.currentDay = $el?.innerHTML || null;
+
+    const $hours = window.document.querySelector(
+      `[data-slot="weather-hourly"]`,
+    ) as HTMLElement | null;
+    if (!window.systems.weather!.initialHourly) {
+      window.systems.weather!.initialHourly = $hours?.innerHTML || null;
+    }
   },
   restoreCurrent: () => {
     if (!window.systems.weather?.currentDay) return;
 
-    const $el = window.document.querySelector(`[data-slot="weather-details"]`);
+    const $el = window.document.querySelector(
+      `[data-slot="weather-details"]`,
+    ) as HTMLElement | null;
 
     if ($el) {
-      $el.innerHTML = window.systems.weather.currentDay;
+      $el.innerHTML = window.systems.weather.currentDay!;
     }
+
+    const $hoursSlot = document.querySelector(
+      `[data-slot="weather-hourly"]`,
+    ) as HTMLElement | null;
+    if ($hoursSlot && window.systems.weather.initialHourly) {
+      $hoursSlot.innerHTML = window.systems.weather.initialHourly;
+    }
+
+    window.systems.weather?.setMode("current");
   },
   async setHour(datetime: string) {
     window.systems.weather?._saveCurrent();
@@ -46,11 +96,13 @@ window.systems.weather = {
 
     const $detailsSlot = document.querySelector(
       `[data-slot="weather-details"]`,
-    );
+    ) as HTMLElement | null;
 
     if ($detailsSlot) {
       $detailsSlot.innerHTML = cacheHours[datetime];
     }
+
+    window.systems.weather?.setMode("hour");
   },
   async setDate(date: string) {
     window.systems.weather?._saveCurrent();
@@ -65,7 +117,7 @@ window.systems.weather = {
 
     const $detailsSlot = document.querySelector(
       `[data-slot="weather-details"]`,
-    );
+    ) as HTMLElement | null;
 
     if ($detailsSlot) {
       $detailsSlot.innerHTML = cacheDays[date];
@@ -79,10 +131,57 @@ window.systems.weather = {
       cacheDayHourly[date] = hoursHTML;
     }
 
-    const $hoursSlot = document.querySelector(`[data-slot="weather-hourly"]`);
+    const $hoursSlot = document.querySelector(
+      `[data-slot="weather-hourly"]`,
+    ) as HTMLElement | null;
 
     if ($hoursSlot) {
       $hoursSlot.innerHTML = cacheDayHourly[date];
     }
+
+    window.systems.weather?.setMode("day");
   },
 };
+
+(function () {
+  if (!window.systems || !window.systems.weather) return;
+
+  const root = document.querySelector(
+    '[data-slot="weather-widget"]',
+  ) as HTMLElement | null;
+  if (!root) return;
+
+  // Ensure initial mode and label
+  window.systems.weather!.setMode("current");
+
+  // Remember initial hourly markup once
+  if (!window.systems.weather!.initialHourly) {
+    const $hours = document.querySelector(
+      `[data-slot="weather-hourly"]`,
+    ) as HTMLElement | null;
+    window.systems.weather!.initialHourly = $hours?.innerHTML || null;
+  }
+
+  // Event bindings (once per load)
+  const hourly = root.querySelector('[data-slot="weather-hourly"]');
+  if (hourly) {
+    hourly.addEventListener(
+      "click",
+      function () {
+        window.systems.weather!.setMode("hour");
+      },
+      { capture: true },
+    );
+  }
+
+  const days = root.querySelector('[data-slot="weather-days"]');
+  if (days) {
+    days.addEventListener(
+      "click",
+      function () {
+        window.systems.weather!.setMode("day");
+      },
+      { capture: true },
+    );
+  }
+})();
