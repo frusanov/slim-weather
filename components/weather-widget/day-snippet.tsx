@@ -34,10 +34,16 @@ export const DaySnippet: FC<{
           background-color: #1f1f1f;
         }
 
+        &.selected {
+          background-color: #0066cc;
+          color: white;
+        }
+
         &:last-child {
           border-right: none;
         }
       `}
+      data-date={day.date}
       onclick={`loadSystem("weather").then(() => window.systems.weather.setDate("${day.date}"))`}
     >
       {format(fromUnixTime(day.date_epoch), "dd EEE")}

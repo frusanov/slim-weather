@@ -15,7 +15,13 @@ export const HourSnippet: FC<{
         padding: 1rem;
         border-radius: 1rem;
         cursor: pointer;
+
+        &.selected {
+          background-color: #0066cc;
+          color: white;
+        }
       `}
+      data-time={hour.time}
       onclick={`loadSystem("weather").then(() => window.systems.weather.setHour("${hour.time}"))`}
     >
       <div

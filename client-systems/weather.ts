@@ -3,12 +3,16 @@ declare module "@/types/client" {
     weather?: {
       currentDay: string | null;
       initialHourly: string | null;
+      selectedHour: string | null;
+      selectedDate: string | null;
       setHour: (datetime: string) => Promise<void>;
       setDate: (date: string) => Promise<void>;
       _saveCurrent: () => void;
       restoreCurrent: () => void;
       setMode: (mode: "current" | "day" | "hour") => void;
       updateCachedTemperatures: (unit: "c" | "f") => void;
+      _clearSelection: () => void;
+      _highlightSelected: () => void;
     };
   }
 }
@@ -41,6 +45,8 @@ function updateTemperaturesInHTML(html: string, unit: "c" | "f"): string {
 window.systems.weather = {
   currentDay: null,
   initialHourly: null,
+  selectedHour: null,
+  selectedDate: null,
   setMode(mode) {
     const root = document.querySelector(
       `[data-slot="weather-widget"]`,
@@ -67,6 +73,13 @@ window.systems.weather = {
       | HTMLElement
       | undefined;
     if (holder) holder.style.display = mode === "current" ? "none" : "flex";
+
+    // Clear selection when returning to current mode
+    if (mode === "current") {
+      window.systems.weather?._clearSelection();
+    } else {
+      window.systems.weather?._highlightSelected();
+    }
   },
   _saveCurrent: () => {
     if (window.systems.weather?.currentDay) return;
@@ -102,9 +115,13 @@ window.systems.weather = {
     }
 
     window.systems.weather?.setMode("current");
+    window.systems.weather!.selectedHour = null;
+    window.systems.weather!.selectedDate = null;
   },
   async setHour(datetime: string) {
     window.systems.weather?._saveCurrent();
+    window.systems.weather!.selectedHour = datetime;
+    window.systems.weather!.selectedDate = null;
 
     if (!cacheHours[datetime]) {
       const hourHTML = await fetch(`/_html/details/hour/${datetime}`).then(
@@ -126,6 +143,8 @@ window.systems.weather = {
   },
   async setDate(date: string) {
     window.systems.weather?._saveCurrent();
+    window.systems.weather!.selectedDate = date;
+    window.systems.weather!.selectedHour = null;
 
     if (!cacheDays[date]) {
       const dayHTML = await window.systems.loading.withLoading(
@@ -202,6 +221,42 @@ window.systems.weather = {
       );
     }
   },
+  _clearSelection: () => {
+    // Remove selected class from all hour snippets
+    const hourElements = document.querySelectorAll(
+      '[data-slot="weather-hourly"] > div',
+    );
+    hourElements.forEach((el) => el.classList.remove("selected"));
+
+    // Remove selected class from all day snippets
+    const dayElements = document.querySelectorAll(
+      '[data-slot="weather-days"] > div',
+    );
+    dayElements.forEach((el) => el.classList.remove("selected"));
+  },
+  _highlightSelected: () => {
+    window.systems.weather?._clearSelection();
+
+    if (window.systems.weather?.selectedHour) {
+      // Find and highlight the selected hour using data-time attribute
+      const selectedHourElement = document.querySelector(
+        `[data-slot="weather-hourly"] [data-time="${window.systems.weather.selectedHour}"]`,
+      );
+      if (selectedHourElement) {
+        selectedHourElement.classList.add("selected");
+      }
+    }
+
+    if (window.systems.weather?.selectedDate) {
+      // Find and highlight the selected day using data-date attribute
+      const selectedDayElement = document.querySelector(
+        `[data-slot="weather-days"] [data-date="${window.systems.weather.selectedDate}"]`,
+      );
+      if (selectedDayElement) {
+        selectedDayElement.classList.add("selected");
+      }
+    }
+  },
 };
 
 (function () {
@@ -230,6 +285,8 @@ window.systems.weather = {
       "click",
       function () {
         window.systems.weather!.setMode("hour");
+        // Delay highlighting to ensure DOM is updated
+        setTimeout(() => window.systems.weather?._highlightSelected(), 50);
       },
       { capture: true },
     );
@@ -241,6 +298,8 @@ window.systems.weather = {
       "click",
       function () {
         window.systems.weather!.setMode("day");
+        // Delay highlighting to ensure DOM is updated
+        setTimeout(() => window.systems.weather?._highlightSelected(), 50);
       },
       { capture: true },
     );
