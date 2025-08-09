@@ -17,10 +17,11 @@ const PreferencesScript: FC<{ preferences: UserPreferences }> = ({
 export const PreferencesProvider: FC<{
   children: any;
   preferences: UserPreferences;
-}> = ({ children, preferences }) => {
+  noScript?: boolean;
+}> = ({ children, preferences, noScript }) => {
   return (
     <PreferencesContext.Provider value={preferences}>
-      <PreferencesScript preferences={preferences} />
+      {!noScript && <PreferencesScript preferences={preferences} />}
       {children}
     </PreferencesContext.Provider>
   );

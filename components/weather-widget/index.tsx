@@ -31,10 +31,15 @@ export const WeatherWidget: FC<{
         overflow: hidden;
         max-width: 640px;
 
+        background: radial-gradient(circle at 59% 50%, #0000, #00000017);
+
         transition: all 0.3s ease-in-out;
+
+        backdrop-filter: blur(50vw);
 
         ${prefersColorScheme("dark")} {
           border-color: #666;
+          background: radial-gradient(circle at 59% 50%, #0000, #ffffff17);
         }
 
         /* Hide undo icon in current mode and show for day/hour modes */
@@ -70,7 +75,7 @@ export const WeatherWidget: FC<{
         `}
       >
         <div
-          onclick={`loadSystem("location").then(() => window.systems.location.test())`}
+        // onclick={`loadSystem("location").then(() => window.systems.location.open())`}
         >
           📌 {location}
         </div>
