@@ -8,6 +8,7 @@ declare module "@/types/client" {
       _saveCurrent: () => void;
       restoreCurrent: () => void;
       setMode: (mode: "current" | "day" | "hour") => void;
+      updateCachedTemperatures: (unit: "c" | "f") => void;
     };
   }
 }
@@ -16,7 +17,26 @@ const cacheHours: Record<string, string> = {};
 const cacheDays: Record<string, string> = {};
 const cacheDayHourly: Record<string, string> = {};
 
-const backIcon = `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXVuZG8yLWljb24gbHVjaWRlLXVuZG8tMiI+PHBhdGggZD0iTTkgMTQgNCA5bDUtNSIvPjxwYXRoIGQ9Ik00IDloMTAuNWE1LjUgNS41IDAgMCAxIDUuNSA1LjVhNS41IDUuNSAwIDAgMS01LjUgNS41SDExIi8+PC9zdmc+`;
+/**
+ * Update temperature displays in cached HTML strings
+ */
+function updateTemperaturesInHTML(html: string, unit: "c" | "f"): string {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+  const symbol = unit === "c" ? "°C" : "°F";
+
+  const elements = doc.querySelectorAll("[data-temp-c][data-temp-f]");
+  elements.forEach((el) => {
+    if (el instanceof HTMLElement) {
+      const temp = unit === "c" ? el.dataset.tempC : el.dataset.tempF;
+      if (temp) {
+        el.textContent = temp + symbol;
+      }
+    }
+  });
+
+  return doc.body.innerHTML;
+}
 
 window.systems.weather = {
   currentDay: null,
@@ -140,6 +160,47 @@ window.systems.weather = {
     }
 
     window.systems.weather?.setMode("day");
+  },
+  updateCachedTemperatures: (unit: "c" | "f") => {
+    // Update cached hours
+    Object.keys(cacheHours).forEach((key) => {
+      if (cacheHours[key]) {
+        cacheHours[key] = updateTemperaturesInHTML(cacheHours[key], unit);
+      }
+    });
+
+    // Update cached days
+    Object.keys(cacheDays).forEach((key) => {
+      if (cacheDays[key]) {
+        cacheDays[key] = updateTemperaturesInHTML(cacheDays[key], unit);
+      }
+    });
+
+    // Update cached day hourly
+    Object.keys(cacheDayHourly).forEach((key) => {
+      if (cacheDayHourly[key]) {
+        cacheDayHourly[key] = updateTemperaturesInHTML(
+          cacheDayHourly[key],
+          unit,
+        );
+      }
+    });
+
+    // Update saved current day if it exists
+    if (window.systems.weather?.currentDay) {
+      window.systems.weather.currentDay = updateTemperaturesInHTML(
+        window.systems.weather.currentDay,
+        unit,
+      );
+    }
+
+    // Update saved initial hourly if it exists
+    if (window.systems.weather?.initialHourly) {
+      window.systems.weather.initialHourly = updateTemperaturesInHTML(
+        window.systems.weather.initialHourly,
+        unit,
+      );
+    }
   },
 };
 

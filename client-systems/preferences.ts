@@ -25,6 +25,13 @@ async function update(preferences: Partial<UserPreferences>) {
   );
 
   updateTemperatureDisplays(window.__app_preferences__);
+
+  // Update cached temperatures in weather system if available
+  if (window.systems.weather?.updateCachedTemperatures) {
+    window.systems.weather.updateCachedTemperatures(
+      window.__app_preferences__.temperature,
+    );
+  }
 }
 
 /**
@@ -45,7 +52,7 @@ function updateTemperatureDisplays(preferences: UserPreferences): void {
   });
 }
 
-if (!window.systems) window.systems = {};
+if (!window.systems) window.systems = {} as any;
 
 window.systems.preferences = {
   get data() {
