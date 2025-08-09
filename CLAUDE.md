@@ -20,6 +20,7 @@ Default to using Node.js with Yarn for all operations:
 - `yarn dev` - Start development server with hot reloading and asset watching
 - `yarn build` - Create production build
 - `yarn start` - Run built server
+- `yarn compose` - Docker Compose commands for local Redis development
 
 ## Architecture Guidelines
 
@@ -187,6 +188,45 @@ Additional dependencies include:
 - **date-fns**: Date/time utilities
 - **bun-compression**: Response compression
 
+### Local Redis Development
+
+For development with local Redis caching, the project includes Docker Compose configuration:
+
+```yaml
+# compose.redis.dev.yaml
+version: '3'
+services:
+  redis:
+    image: redis
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --appendfsync everysec --save 900 1 --save 300 10 --save 60 10000
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  serverless-redis-http:
+    ports:
+      - 8079:80
+    image: hiett/serverless-redis-http:latest
+    environment:
+      SRH_MODE: env
+      SRH_TOKEN: development
+      SRH_CONNECTION_STRING: redis://redis:6379
+```
+
+Start local Redis services:
+```bash
+yarn compose up -d
+```
+
+This provides:
+- Redis server with persistent storage and health checks
+- Serverless Redis HTTP proxy on port 8079 (compatible with Upstash Redis REST API)
+- Development token "development" for local testing
+
 ### Testing
 
 Testing framework is not yet implemented. The `yarn test` command currently shows a placeholder message ("Tests not yet implemented"). Consider adding Vitest for future testing needs.
@@ -204,6 +244,7 @@ Additional scripts:
 - `yarn start` - Start production server (references Vercel serverless function - use `yarn dev` for local development)
 - `yarn clean` - Remove build artifacts
 - `yarn check` - TypeScript type checking
+- `yarn compose` - Docker Compose commands for local Redis (e.g., `yarn compose up -d`)
 
 ### Dark Mode
 

@@ -38,6 +38,7 @@
     "preview": "vite preview",
     "clean": "rm -rf api public/systems",
     "check": "tsc --noEmit",
-    "test": "echo \"Tests not yet implemented\" && exit 0"
+    "test": "echo \"Tests not yet implemented\" && exit 0",
+    "compose": "docker compose -f compose.redis.dev.yaml"
   }
 }

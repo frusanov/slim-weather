@@ -21,7 +21,7 @@ An extremely lightweight weather website designed to work fast even with very po
 - **Styling**: [@emotion/css](https://emotion.sh) with critical CSS extraction
 - **Compression**: gzip compression for optimal payload sizes
 - **Deployment**: Vercel with custom build configuration
-- **Database**: [Upstash Redis](https://upstash.com) for caching and preferences
+- **Database**: [Upstash Redis](https://upstash.com) for caching and preferences (with local Redis support for development)
 - **Validation**: [Zod](https://zod.dev) for type-safe input validation
 
 ## Project Structure
@@ -80,7 +80,8 @@ slim-weather/
 ├── build-server.js      # Server build script using esbuild
 ├── dev.js               # Development orchestration script
 ├── dev-server.ts        # Development server entry point
-└── index.ts             # Main application entry point
+├── index.ts             # Main application entry point
+└── compose.redis.dev.yaml # Docker Compose for local Redis development
 ```
 
 ## Installation
@@ -108,6 +109,20 @@ The development process uses three parallel processes:
 2. **Client Build**: Vite watches and builds client systems to `public/systems/`
 3. **Dev Server**: tsx runs the development server with hot reload
 
+### Local Redis Development
+
+For development with local Redis caching, start the Redis services:
+
+```bash
+yarn compose up -d
+```
+
+This will start:
+- Redis server on port 6379 (internal)
+- Serverless Redis HTTP proxy on port 8079 (compatible with Upstash Redis REST API)
+
+The local setup uses Docker Compose with persistent data storage and health checks.
+
 ## Production Build
 
 ```bash
@@ -121,6 +136,13 @@ Creates optimized production builds:
 You can also build components separately:
 - `yarn build:server` - Build only the server
 - `yarn build:client` - Build only the client systems
+
+### Other Commands
+
+- `yarn compose` - Docker Compose commands for local Redis (e.g., `yarn compose up -d`)
+- `yarn clean` - Remove build artifacts
+- `yarn check` - TypeScript type checking
+- `yarn test` - Run tests (placeholder, not yet implemented)
 
 ## API Endpoints
 
@@ -145,8 +167,8 @@ You can also build components separately:
 Currently uses mock weather data. To use real weather data, uncomment the API call in `utils/fetch-weather.ts` and set the following environment variables:
 
 - `WEATHER_API` - WeatherAPI.com API key
-- `UPSTASH_REDIS_REST_URL` - Redis REST URL for caching (optional)
-- `UPSTASH_REDIS_REST_TOKEN` - Redis REST token for caching (optional)
+- `UPSTASH_REDIS_REST_URL` - Redis REST URL for caching (optional, defaults to local Redis HTTP proxy at http://localhost:8079)
+- `UPSTASH_REDIS_REST_TOKEN` - Redis REST token for caching (optional, defaults to "development" for local setup)
 
 Uses Vite's `import.meta.env` format for environment variables.
 
