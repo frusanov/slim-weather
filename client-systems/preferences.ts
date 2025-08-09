@@ -41,6 +41,7 @@ function updateTemperatureDisplays(preferences: UserPreferences): void {
   const unit = preferences.temperature;
   const symbol = unit === "c" ? "°C" : "°F";
 
+  // Update temperature displays with data-temp-c and data-temp-f attributes
   const $elements = document.querySelectorAll(`[data-temp-c][data-temp-f]`);
 
   $elements.forEach(($el) => {
@@ -50,6 +51,20 @@ function updateTemperatureDisplays(preferences: UserPreferences): void {
       ((unit === "c" ? $el.dataset.tempC : $el.dataset.tempF) as string) +
       symbol;
   });
+
+  // Update temperature toggle symbol
+  const $toggleSymbol = document.querySelector(
+    '[data-slot="temp-toggle-symbol"]',
+  );
+  if ($toggleSymbol) {
+    $toggleSymbol.textContent = symbol;
+  }
+
+  // Update data-temp-unit attribute on toggle button
+  const $toggleButton = document.querySelector("[data-temp-unit]");
+  if ($toggleButton instanceof HTMLElement) {
+    $toggleButton.dataset.tempUnit = unit;
+  }
 }
 
 if (!window.systems) window.systems = {} as any;
