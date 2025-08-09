@@ -19,7 +19,7 @@ detailsRoute.get(`/day/:date`, async (c) => {
   c.cacheHeaders.use();
 
   return c.html(
-    <PreferencesProvider preferences={c.preferences.data}>
+    <PreferencesProvider preferences={c.preferences.data} noScript>
       <WeatherDetails weather={formatWeatherData(day.day, "day")} />
     </PreferencesProvider>,
   );
@@ -41,7 +41,7 @@ detailsRoute.get(`/hour/:datetime`, async (c) => {
   c.cacheHeaders.use();
 
   return c.html(
-    <PreferencesProvider preferences={c.preferences.data}>
+    <PreferencesProvider preferences={c.preferences.data} noScript>
       <WeatherDetails weather={formatWeatherData(hour, "hour")} />
     </PreferencesProvider>,
   );
@@ -61,7 +61,7 @@ detailsRoute.get(`/hours/:date`, async (c) => {
   c.cacheHeaders.use();
 
   return c.html(
-    <PreferencesProvider preferences={c.preferences.data}>
+    <PreferencesProvider preferences={c.preferences.data} noScript>
       {day.hour.map((hour) => {
         return <HourSnippet hour={hour} />;
       })}
