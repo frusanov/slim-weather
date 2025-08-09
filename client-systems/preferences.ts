@@ -5,6 +5,7 @@ import {
   setAttr,
   getTempSymbol,
   updateTempElements,
+  updateWeatherElements,
   registerSystem,
 } from "./_shared";
 
@@ -51,6 +52,9 @@ function updateTemperatureDisplays(preferences: UserPreferences): void {
 
   // Update temperature displays with data-temp-c and data-temp-f attributes
   updateTempElements(document, unit);
+
+  // Update weather unit displays (wind speed, visibility, precipitation)
+  updateWeatherElements(document, unit);
 
   // Update temperature toggle symbol
   setText($slot("temp-toggle-symbol"), symbol);

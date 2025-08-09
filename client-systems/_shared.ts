@@ -49,6 +49,84 @@ export const createCache = <T>() => {
   };
 };
 
+// Weather Unit Utilities
+export const getWindSpeedUnit = (unit: "c" | "f") =>
+  unit === "c" ? "km/h" : "mph";
+export const getVisibilityUnit = (unit: "c" | "f") =>
+  unit === "c" ? "km" : "mi";
+export const getPrecipitationUnit = (unit: "c" | "f") =>
+  unit === "c" ? "mm" : "in";
+
+export const getWindSpeedValue = (unit: "c" | "f", kph: string, mph: string) =>
+  unit === "c" ? kph : mph;
+export const getVisibilityValue = (
+  unit: "c" | "f",
+  km: string,
+  miles: string,
+) => (unit === "c" ? km : miles);
+export const getPrecipitationValue = (
+  unit: "c" | "f",
+  mm: string,
+  inches: string,
+) => (unit === "c" ? mm : inches);
+
+export const updateWeatherElements = (
+  container: Document | HTMLElement,
+  unit: "c" | "f",
+) => {
+  // Update wind speed elements
+  const windElements = container.querySelectorAll(
+    "[data-wind-kph][data-wind-mph]",
+  );
+  windElements.forEach((el) => {
+    if (el instanceof HTMLElement) {
+      const value = getWindSpeedValue(
+        unit,
+        el.dataset.windKph!,
+        el.dataset.windMph!,
+      );
+      const roundedValue = Math.round(parseFloat(value));
+      el.textContent = roundedValue.toString();
+    }
+  });
+
+  // Update visibility elements
+  const visibilityElements = container.querySelectorAll(
+    "[data-visibility-km][data-visibility-miles]",
+  );
+  visibilityElements.forEach((el) => {
+    if (el instanceof HTMLElement) {
+      const value = getVisibilityValue(
+        unit,
+        el.dataset.visibilityKm!,
+        el.dataset.visibilityMiles!,
+      );
+      const roundedValue = Math.round(parseFloat(value));
+      el.textContent = roundedValue.toString();
+    }
+  });
+
+  // Update precipitation elements
+  const precipitationElements = container.querySelectorAll(
+    "[data-precipitation-mm][data-precipitation-in]",
+  );
+  precipitationElements.forEach((el) => {
+    if (el instanceof HTMLElement) {
+      const value = getPrecipitationValue(
+        unit,
+        el.dataset.precipitationMm!,
+        el.dataset.precipitationIn!,
+      );
+      el.textContent = value;
+    }
+  });
+
+  // Update unit labels using data-slot selectors
+  setText($slot("wind-speed-unit"), getWindSpeedUnit(unit));
+  setText($slot("visibility-unit"), getVisibilityUnit(unit));
+  setText($slot("precipitation-unit"), getPrecipitationUnit(unit));
+};
+
 // System Registration Helper
 export const registerSystem = <T>(name: string, system: T) => {
   if (!window.systems) window.systems = {} as any;

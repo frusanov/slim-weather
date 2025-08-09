@@ -4,6 +4,7 @@ import {
   setText,
   setAttr,
   updateTempElements,
+  updateWeatherElements,
   createCache,
   registerSystem,
 } from "./_shared";
@@ -33,12 +34,13 @@ const cacheDays = createCache<string>();
 const cacheDayHourly = createCache<string>();
 
 /**
- * Update temperature displays in cached HTML strings
+ * Update temperature and weather unit displays in cached HTML strings
  */
-function updateTemperaturesInHTML(html: string, unit: "c" | "f"): string {
+function updateUnitsInHTML(html: string, unit: "c" | "f"): string {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
   updateTempElements(doc, unit);
+  updateWeatherElements(doc, unit);
   return doc.body.innerHTML;
 }
 
@@ -148,21 +150,21 @@ registerSystem("weather", {
       cache.keys().forEach((key) => {
         const cached = cache.get(key);
         if (cached) {
-          cache.set(key, updateTemperaturesInHTML(cached, unit));
+          cache.set(key, updateUnitsInHTML(cached, unit));
         }
       });
     });
 
     // Update saved current day and initial hourly
     if (window.systems.weather?.currentDay) {
-      window.systems.weather.currentDay = updateTemperaturesInHTML(
+      window.systems.weather.currentDay = updateUnitsInHTML(
         window.systems.weather.currentDay,
         unit,
       );
     }
 
     if (window.systems.weather?.initialHourly) {
-      window.systems.weather.initialHourly = updateTemperaturesInHTML(
+      window.systems.weather.initialHourly = updateUnitsInHTML(
         window.systems.weather.initialHourly,
         unit,
       );

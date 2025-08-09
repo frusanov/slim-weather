@@ -89,7 +89,7 @@ export const WeatherDetails: FC<{
           >
             {Math.round(windSpeed)}
           </span>{" "}
-          {windSpeed}
+          <span data-slot="wind-speed-unit">{isCelsius ? "km/h" : "mph"}</span>
           {weather.wind_dir && <span> ({weather.wind_dir})</span>}
         </div>
         <div>
@@ -101,7 +101,7 @@ export const WeatherDetails: FC<{
           >
             {Math.round(visibility)}
           </span>{" "}
-          {visibility}
+          <span data-slot="visibility-unit">{isCelsius ? "km" : "mi"}</span>
         </div>
         <div>
           UV Index: <span data-slot="uv">{weather.uv}</span>
@@ -115,7 +115,7 @@ export const WeatherDetails: FC<{
           >
             {precipitation}
           </span>{" "}
-          {precipitation}
+          <span data-slot="precipitation-unit">{isCelsius ? "mm" : "in"}</span>
         </div>
         {feelsLike !== undefined && (
           <div>
