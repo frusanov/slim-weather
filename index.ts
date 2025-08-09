@@ -1,9 +1,11 @@
 import { Hono } from "hono";
 import { indexRoute } from "./routes/index.js";
 import { compress } from "hono/compress";
+import { geolocation } from "@vercel/functions";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { handle } from "hono/vercel";
 import { preferencesMiddleware } from "./middleware/preferences.js";
+import { locationMiddleware } from "./middleware/location.js";
 
 const isVercel = Boolean(process.env.VERCEL_REGION);
 
@@ -20,6 +22,7 @@ if (!isVercel) {
   );
 }
 
+app.use(locationMiddleware);
 app.use(preferencesMiddleware);
 
 app.route("/", indexRoute);

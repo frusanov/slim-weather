@@ -841,6 +841,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vercel/functions@npm:^2.2.8":
+  version: 2.2.8
+  resolution: "@vercel/functions@npm:2.2.8"
+  dependencies:
+    "@vercel/oidc": "npm:2.0.0"
+  peerDependencies:
+    "@aws-sdk/credential-provider-web-identity": "*"
+  peerDependenciesMeta:
+    "@aws-sdk/credential-provider-web-identity":
+      optional: true
+  checksum: 10c0/ace322af7d90a021a83d3ca909168ee6cc2bc89f9602828aa244ad84a4c8aed5b2d16a5ac9b019768cf24a614e99cc3ccf3fb6ef950a16f89a2586329c0d3283
+  languageName: node
+  linkType: hard
+
+"@vercel/oidc@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@vercel/oidc@npm:2.0.0"
+  checksum: 10c0/a14685faef6d06bb80543d88a08481ef7b92884bec2f621596f0b62d201425d8cfc9ccba8de066c84485985e435e9c40ed47105c3306895589eae1bd856c9acf
+  languageName: node
+  linkType: hard
+
 "@vitejs/plugin-react@npm:^4.7.0":
   version: 4.7.0
   resolution: "@vitejs/plugin-react@npm:4.7.0"
@@ -1103,6 +1124,13 @@ __metadata:
   version: 3.1.3
   resolution: "csstype@npm:3.1.3"
   checksum: 10c0/80c089d6f7e0c5b2bd83cf0539ab41474198579584fa10d86d0cafe0642202343cbc119e076a0b1aece191989477081415d66c9fefbf3c957fc2fc4b7009f248
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "date-fns@npm:4.1.0"
+  checksum: 10c0/b79ff32830e6b7faa009590af6ae0fb8c3fd9ffad46d930548fbb5acf473773b4712ae887e156ba91a7b3dc30591ce0f517d69fd83bd9c38650fdc03b4e0bac8
   languageName: node
   linkType: hard
 
@@ -2238,9 +2266,11 @@ __metadata:
     "@emotion/server": "npm:^11.11.0"
     "@hono/node-server": "npm:^1.18.1"
     "@types/node": "npm:latest"
+    "@vercel/functions": "npm:^2.2.8"
     "@vitejs/plugin-react": "npm:^4.7.0"
     bun-compression: "npm:^0.0.6"
     concurrently: "npm:^9.2.0"
+    date-fns: "npm:^4.1.0"
     esbuild: "npm:^0.25.8"
     hono: "npm:^4.8.12"
     postcss: "npm:^8.5.6"

@@ -22,8 +22,6 @@ export const FetchAndAppend = () => html`
             '[data-slot="weather-widget"]',
           );
 
-          console.log({ $weatherWidget });
-
           if (!$weatherWidget) {
             console.error("Weather widget not found");
             return;
