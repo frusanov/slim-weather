@@ -1,3 +1,5 @@
+import { registerSystem } from "./_shared";
+
 declare module "@/types/client" {
   interface Systems {
     location?: {
@@ -6,8 +8,8 @@ declare module "@/types/client" {
   }
 }
 
-window.systems.location = {
+registerSystem("location", {
   test: () => {
     console.log("Test function called! 123");
   },
-};
+});

@@ -59,7 +59,7 @@ export const FetchAndAppend = () => html`
         d.push(path);
 
         const s = document.createElement("script");
-
+        s.type = "module";
         s.src = "/systems/" + path + ".js";
         document.head.appendChild(s);
 

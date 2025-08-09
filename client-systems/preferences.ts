@@ -1,4 +1,12 @@
 import { DEFAULT_PREFERENCES, type UserPreferences } from "@/types/preferences";
+import {
+  $slot,
+  setText,
+  setAttr,
+  getTempSymbol,
+  updateTempElements,
+  registerSystem,
+} from "./_shared";
 
 declare module "@/types/client" {
   interface Systems {
@@ -39,37 +47,23 @@ async function update(preferences: Partial<UserPreferences>) {
  */
 function updateTemperatureDisplays(preferences: UserPreferences): void {
   const unit = preferences.temperature;
-  const symbol = unit === "c" ? "°C" : "°F";
+  const symbol = getTempSymbol(unit);
 
   // Update temperature displays with data-temp-c and data-temp-f attributes
-  const $elements = document.querySelectorAll(`[data-temp-c][data-temp-f]`);
-
-  $elements.forEach(($el) => {
-    if (!($el instanceof HTMLElement)) return;
-
-    $el.innerText =
-      ((unit === "c" ? $el.dataset.tempC : $el.dataset.tempF) as string) +
-      symbol;
-  });
+  updateTempElements(document, unit);
 
   // Update temperature toggle symbol
-  const $toggleSymbol = document.querySelector(
-    '[data-slot="temp-toggle-symbol"]',
-  );
-  if ($toggleSymbol) {
-    $toggleSymbol.textContent = symbol;
-  }
+  setText($slot("temp-toggle-symbol"), symbol);
 
   // Update data-temp-unit attribute on toggle button
-  const $toggleButton = document.querySelector("[data-temp-unit]");
-  if ($toggleButton instanceof HTMLElement) {
-    $toggleButton.dataset.tempUnit = unit;
-  }
+  setAttr(
+    document.querySelector("[data-temp-unit]") as HTMLElement,
+    "temp-unit",
+    unit,
+  );
 }
 
-if (!window.systems) window.systems = {} as any;
-
-window.systems.preferences = {
+registerSystem("preferences", {
   get data() {
     return window.__app_preferences__;
   },
@@ -84,32 +78,4 @@ window.systems.preferences = {
       temperature,
     });
   },
-
-  // setTemperatureUnit: (unit: TemperatureUnit): void => {
-  //   const current = parsePreferences();
-  //   const updated = { ...current, temperature: unit };
-  //   savePreferences(updated);
-  //   updateTemperatureDisplays();
-  // },
-
-  // getTemperatureValue: (tempC: number, tempF: number): number => {
-  //   const preferences = parsePreferences();
-  //   return preferences.temperature === "f" ? tempF : tempC;
-  // },
-
-  // getTemperatureSymbol: (): string => {
-  //   const preferences = parsePreferences();
-  //   return preferences.temperature === "f" ? "°F" : "°C";
-  // },
-
-  // formatTemperature: (tempC: number, tempF: number): string => {
-  //   const preferences = parsePreferences();
-  //   const value = preferences.temperature === "f" ? tempF : tempC;
-  //   const symbol = preferences.temperature === "f" ? "°F" : "°C";
-  //   return `${Math.round(value)}${symbol}`;
-  // },
-
-  // updateDisplay: (): void => {
-  //   updateTemperatureDisplays();
-  // },
-};
+});
