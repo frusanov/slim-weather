@@ -12,6 +12,7 @@ declare module "@/types/client" {
 
 const cacheHours: Record<string, string> = {};
 const cacheDays: Record<string, string> = {};
+const cacheDayHourly: Record<string, string> = {};
 
 const backIcon = `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXVuZG8yLWljb24gbHVjaWRlLXVuZG8tMiI+PHBhdGggZD0iTTkgMTQgNCA5bDUtNSIvPjxwYXRoIGQ9Ik00IDloMTAuNWE1LjUgNS41IDAgMCAxIDUuNSA1LjVhNS41IDUuNSAwIDAgMS01LjUgNS41SDExIi8+PC9zdmc+`;
 
@@ -68,6 +69,20 @@ window.systems.weather = {
 
     if ($detailsSlot) {
       $detailsSlot.innerHTML = cacheDays[date];
+    }
+
+    if (!cacheDayHourly[date]) {
+      const hoursHTML = await window.systems.loading.withLoading(
+        fetch(`/_html/details/hours/${date}`).then((r) => r.text()),
+      );
+
+      cacheDayHourly[date] = hoursHTML;
+    }
+
+    const $hoursSlot = document.querySelector(`[data-slot="weather-hourly"]`);
+
+    if ($hoursSlot) {
+      $hoursSlot.innerHTML = cacheDayHourly[date];
     }
   },
 };
