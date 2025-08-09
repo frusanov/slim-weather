@@ -6,6 +6,7 @@ import { handle } from "hono/vercel";
 import { preferencesMiddleware } from "./middleware/preferences.js";
 import { locationMiddleware } from "./middleware/location.js";
 import { weatherMiddleware } from "./middleware/weather.js";
+import { cacheHeadersMiddleware } from "./middleware/cache-headers.js";
 
 const isVercel = Boolean(process.env.VERCEL_REGION);
 
@@ -36,6 +37,7 @@ if (!isVercel) {
   );
 }
 
+app.use(cacheHeadersMiddleware);
 app.use(locationMiddleware);
 app.use(weatherMiddleware);
 app.use(preferencesMiddleware);

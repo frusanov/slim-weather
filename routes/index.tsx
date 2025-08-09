@@ -37,6 +37,8 @@ export const IndexPage: FC = ({ weather, preferences }) => {
 export const indexRoute = new Hono();
 
 indexRoute.get("/", async (c) => {
+  c.cacheHeaders.use();
+
   return c.html(
     <IndexPage weather={c.weather} preferences={c.preferences.data} />,
   );

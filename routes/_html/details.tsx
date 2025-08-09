@@ -16,6 +16,8 @@ detailsRoute.get(`/day/:date`, async (c) => {
     return new Response("404", { status: 404 });
   }
 
+  c.cacheHeaders.use();
+
   return c.html(
     <PreferencesProvider preferences={c.preferences.data}>
       <WeatherDetails weather={formatWeatherData(day.day, "day")} />
@@ -36,6 +38,8 @@ detailsRoute.get(`/hour/:datetime`, async (c) => {
     return new Response("404", { status: 404 });
   }
 
+  c.cacheHeaders.use();
+
   return c.html(
     <PreferencesProvider preferences={c.preferences.data}>
       <WeatherDetails weather={formatWeatherData(hour, "hour")} />
@@ -53,6 +57,8 @@ detailsRoute.get(`/hours/:date`, async (c) => {
   if (!day) {
     return new Response("404", { status: 404 });
   }
+
+  c.cacheHeaders.use();
 
   return c.html(
     <PreferencesProvider preferences={c.preferences.data}>
