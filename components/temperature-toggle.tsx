@@ -2,6 +2,7 @@ import type { FC } from "hono/jsx";
 import { css } from "@emotion/css";
 import { UserPreferences } from "@/types/preferences";
 import { usePreferences } from "./preferences-context";
+import { prefersColorScheme } from "@/styles/mixins/prefers-color-scheme";
 
 export const TemperatureToggle: FC = () => {
   const preferences = usePreferences();
@@ -27,7 +28,7 @@ export const TemperatureToggle: FC = () => {
           background-color: rgba(0, 0, 0, 0.05);
         }
 
-        @media (prefers-color-scheme: dark) {
+        ${prefersColorScheme("dark")} {
           border-color: #666;
 
           &:hover {

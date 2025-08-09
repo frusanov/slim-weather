@@ -251,7 +251,7 @@ Additional scripts:
 Support automatic dark mode using CSS media queries:
 
 ```css
-@media (prefers-color-scheme: dark) {
+${prefersColorScheme("dark")} {
   /* dark styles */
 }
 ```

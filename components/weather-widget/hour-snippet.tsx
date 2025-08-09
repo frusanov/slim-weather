@@ -4,6 +4,7 @@ import { css } from "@emotion/css";
 import { UserPreferences } from "@/types/preferences";
 import { Temperature } from "../temperature";
 import { getWeatherEmoji } from "@/utils/weather-emojis";
+import { prefersColorScheme } from "@/styles/mixins/prefers-color-scheme";
 
 export const HourSnippet: FC<{
   hour: Hour;
@@ -11,10 +12,14 @@ export const HourSnippet: FC<{
   return (
     <div
       class={css`
-        background-color: #222;
+        background-color: #edf9f9;
         padding: 1rem;
         border-radius: 1rem;
         cursor: pointer;
+
+        ${prefersColorScheme("dark")} {
+          background-color: #222;
+        }
 
         &.selected {
           background-color: #0066cc;

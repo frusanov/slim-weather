@@ -8,9 +8,8 @@ import { WeatherDetails } from "./weather-details";
 import { formatWeatherData } from "@/utils/format-weather";
 import { noScrollbar } from "@/styles/mixins/no-scrollbar";
 import { TemperatureToggle } from "../temperature-toggle.js";
-import { UserPreferences } from "@/types/preferences";
-import { usePreferences } from "../preferences-context";
 import { lowerThan } from "@/styles/mixins/breakpoints";
+import { prefersColorScheme } from "@/styles/mixins/prefers-color-scheme";
 
 export const WeatherWidget: FC<{
   weather: APIResponseMap["forecast.json"];
@@ -33,6 +32,10 @@ export const WeatherWidget: FC<{
         max-width: 640px;
 
         transition: all 0.3s ease-in-out;
+
+        ${prefersColorScheme("dark")} {
+          border-color: #666;
+        }
 
         /* Hide undo icon in current mode and show for day/hour modes */
         & .undo-icon {
@@ -74,7 +77,7 @@ export const WeatherWidget: FC<{
 
         <div
           class={css`
-            border: 2px solid #fff;
+            border: 2px solid #ccc;
             padding: 0.25rem 0.5rem;
             border-radius: 1rem;
             margin-left: 1rem;
@@ -84,13 +87,17 @@ export const WeatherWidget: FC<{
 
             display: flex;
             align-items: center;
+
+            ${prefersColorScheme("dark")} {
+              border-color: #666;
+            }
           `}
           onclick={`loadSystem("weather").then(() => window.systems.weather.restoreCurrent())`}
         >
           <div
             class={cx(
               css`
-                border-right: 1px solid #fff;
+                border-right: 1px solid #ccc;
                 margin: -0.5rem 0;
                 margin-right: 0.5rem;
                 padding-right: 0.5rem;
@@ -102,6 +109,10 @@ export const WeatherWidget: FC<{
                 img {
                   width: 1rem;
                   height: 1rem;
+                }
+
+                ${prefersColorScheme("dark")} {
+                  border-right-color: #666;
                 }
               `,
               "undo-icon",
@@ -121,7 +132,13 @@ export const WeatherWidget: FC<{
                 transition: background-color 0.2s ease-in-out;
 
                 &:hover {
-                  background: #2d2d2c;
+                  background-color: rgba(0, 0, 0, 0.1);
+                }
+
+                ${prefersColorScheme("dark")} {
+                  &:hover {
+                    background-color: rgba(255, 255, 255, 0.1);
+                  }
                 }
               `}
             >
@@ -179,9 +196,13 @@ export const WeatherWidget: FC<{
           css`
             display: flex;
             margin: 0 -1.5rem -1.5rem;
-            border-top: 2px solid #fff;
+            border-top: 2px solid #ccc;
             overflow-x: scroll;
             min-width: 120px;
+
+            ${prefersColorScheme("dark")} {
+              border-top-color: #666;
+            }
           `,
           noScrollbar,
         )}

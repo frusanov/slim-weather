@@ -2,6 +2,7 @@ import { html } from "hono/html";
 import { css } from "@emotion/css";
 import { extractCritical } from "@emotion/server";
 import { FetchAndAppend } from "./fetch-and-append.js";
+import { prefersColorScheme } from "@/styles/mixins/prefers-color-scheme.js";
 
 export const Layout = ({ children }: { children?: any }) => {
   const bodyStyles = css`
@@ -19,7 +20,7 @@ export const Layout = ({ children }: { children?: any }) => {
       box-sizing: border-box;
     }
 
-    @media (prefers-color-scheme: dark) {
+    ${prefersColorScheme("dark")} {
       background-color: #000;
       color: #fff;
     }
