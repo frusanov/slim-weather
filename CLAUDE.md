@@ -124,6 +124,7 @@ routes/                     # Route handlers and pages
     └── details.tsx        # Details page
 
 client-systems/            # On-demand client modules
+├── _shared.ts            # Shared utilities for client systems
 ├── location.ts           # Location services
 ├── weather.ts            # Client weather updates
 └── preferences.ts        # Preferences management
@@ -141,13 +142,16 @@ types/                     # TypeScript type definitions
 └── client.ts             # Client-side types
 
 middleware/               # Request middleware
-└── preferences.ts        # Preferences middleware
+├── location.ts           # Location detection middleware
+├── preferences.ts        # Preferences middleware
+└── weather.ts            # Weather data middleware
 
 validators/               # Input validation
 └── preferences.ts        # Preferences validation
 
 styles/                   # Style utilities
 └── mixins/               # CSS mixins
+    ├── breakpoints.ts    # Responsive breakpoint utilities
     └── no-scrollbar.ts   # Scrollbar hiding mixin
 ```
 
@@ -164,26 +168,42 @@ Keep API responses minimal - only include necessary data.
 
 ### Build Process
 
-The dev script runs parallel processes for:
+The dev script runs three parallel processes:
 
-1. Server bundle: Build and watch server-side code using esbuild (outputs to `api/[...path].js` for Vercel)
-2. Client systems: Build and watch client-side TypeScript modules using Vite (outputs to `public/systems/`)
-3. Server: Run the development server with hot reload
+1. **Server Build**: esbuild watches and builds server-side code (outputs to `api/[...path].js` for Vercel)
+2. **Client Build**: Vite watches and builds client-side TypeScript modules (outputs to `public/systems/`)
+3. **Dev Server**: tsx runs the development server with hot reload on port 3000
+
+The development orchestration is handled by `dev.js` which spawns these processes with colored output for easy monitoring.
 
 Production builds:
-- Server: `api/[...path].js` - Serverless function for Vercel
-- Client systems: `public/systems/*.js` - Static ES modules
+- Server: `api/[...path].js` - Serverless function for Vercel (built with esbuild)
+- Client systems: `public/systems/*.js` - Static ES modules (built with Vite)
+
+Additional dependencies include:
+- **@upstash/redis**: For caching and user preferences storage
+- **@vercel/functions**: Vercel serverless function utilities
+- **zod**: Type-safe input validation
+- **date-fns**: Date/time utilities
+- **bun-compression**: Response compression
 
 ### Testing
 
-Testing framework is not yet implemented. The `yarn test` command currently shows a placeholder message. Consider adding Vitest for future testing needs.
+Testing framework is not yet implemented. The `yarn test` command currently shows a placeholder message ("Tests not yet implemented"). Consider adding Vitest for future testing needs.
 
 ### Deployment
 
 Configured for Vercel with Yarn commands:
 - Install: `yarn install`
-- Build: `yarn build` 
-- Dev: `yarn dev`
+- Build: `yarn build` (runs both server and client builds)
+- Dev: `yarn dev` (runs parallel build processes and dev server)
+
+Additional scripts:
+- `yarn build:server` - Build only the server bundle
+- `yarn build:client` - Build only the client systems
+- `yarn start` - Start production server (references Vercel serverless function - use `yarn dev` for local development)
+- `yarn clean` - Remove build artifacts
+- `yarn check` - TypeScript type checking
 
 ### Dark Mode
 

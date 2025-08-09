@@ -34,9 +34,9 @@
     "build": "node build-server.js && vite build",
     "build:server": "node build-server.js",
     "build:client": "vite build",
-    "start": "node dist/index.js",
+    "start": "node api/\\[...path\\].js",
     "preview": "vite preview",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf api public/systems",
     "check": "tsc --noEmit",
     "test": "echo \"Tests not yet implemented\" && exit 0"
   }
