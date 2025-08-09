@@ -15,6 +15,10 @@ import { lowerThan } from "@/styles/mixins/breakpoints";
 export const WeatherWidget: FC<{
   weather: APIResponseMap["forecast.json"];
 }> = ({ weather }) => {
+  const { country, region, name } = weather.location;
+
+  const location = `${country}, ${region === name ? name : `${region}, ${name}`}`;
+
   return (
     <div
       class={css`
@@ -65,7 +69,7 @@ export const WeatherWidget: FC<{
         <div
           onclick={`loadSystem("location").then(() => window.systems.location.test())`}
         >
-          📌 {weather.location.name}
+          📌 {location}
         </div>
 
         <div
